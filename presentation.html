@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一Ya好眠 - 平台介紹簡報</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #5D9CEC;
+  --primary-dark: #4A89DC;
+  --secondary: #62C3A3;
+  --accent: #FFD700;
+  --neutral-50: #F8F9FA;
+  --neutral-100: #F1F3F5;
+  --neutral-200: #E9ECEF;
+  --neutral-600: #868E96;
+  --neutral-700: #495057;
+  --neutral-800: #343A40;
+  --neutral-900: #212529;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Noto Sans TC', -apple-system, sans-serif;
+  background: #0E1628;
+  color: var(--neutral-800);
+  overflow: hidden;
+}
+
+.deck {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(40px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+/* ===== Slide Common ===== */
+.slide-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 80px 80px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.slide-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(93, 156, 236, 0.1);
+  color: var(--primary);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  align-self: flex-start;
+  margin-bottom: 16px;
+}
+
+.slide h1 {
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--neutral-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.slide h2 {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--neutral-900);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.slide .subtitle {
+  font-size: 17px;
+  color: var(--neutral-600);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.slide-body {
+  flex: 1;
+  display: flex;
+  gap: 40px;
+  min-height: 0;
+}
+
+.slide-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide-image {
+  flex: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.slide-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 16px;
+  color: var(--neutral-700);
+  line-height: 1.6;
+}
+
+.feature-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin-top: 2px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+
+.feature-list li strong {
+  color: var(--neutral-900);
+  font-weight: 700;
+}
+
+/* ===== Slide 1: Cover ===== */
+.slide-cover {
+  background: linear-gradient(170deg, #EEF4FD 0%, #F0FAF6 50%, #FEFCF0 100%);
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-cover .slide-inner {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.cover-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.cover-logo-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 36px;
+  box-shadow: 0 20px 50px rgba(93, 156, 236, 0.3);
+}
+
+.cover-logo-text {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--neutral-900);
+}
+
+.cover-title {
+  font-size: 68px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  color: var(--neutral-900);
+}
+
+.cover-title span {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cover-subtitle {
+  font-size: 22px;
+  color: var(--neutral-600);
+  margin-bottom: 50px;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 40px;
+  font-size: 15px;
+  color: var(--neutral-600);
+}
+
+.cover-meta div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cover-meta strong {
+  color: var(--neutral-800);
+  font-weight: 600;
+}
+
+/* ===== Slide 2: Overview ===== */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.overview-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid var(--neutral-200);
+  border-radius: 18px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  transition: transform 0.3s ease;
+}
+
+.overview-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.overview-card-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.icon-blue { background: rgba(93,156,236,0.12); color: var(--primary); }
+.icon-green { background: rgba(98,195,163,0.12); color: var(--secondary); }
+.icon-yellow { background: rgba(255,193,7,0.12); color: #D4A000; }
+.icon-purple { background: rgba(149,117,205,0.12); color: #9575CD; }
+
+.overview-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--neutral-900);
+}
+
+.overview-card p {
+  font-size: 14px;
+  color: var(--neutral-600);
+  line-height: 1.6;
+}
+
+/* ===== Stats Slide ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.stat-box {
+  background: linear-gradient(135deg, white, var(--neutral-50));
+  border: 1px solid var(--neutral-200);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 44px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--neutral-600);
+}
+
+/* ===== Section Slide ===== */
+.slide-section {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-section .slide-inner {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-section .section-num {
+  font-size: 22px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-bottom: 16px;
+  letter-spacing: 4px;
+}
+
+.slide-section h1 {
+  font-size: 72px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.slide-section .subtitle {
+  font-size: 22px;
+  color: rgba(255,255,255,0.9);
+  max-width: 720px;
+}
+
+/* ===== Closing Slide ===== */
+.slide-end {
+  background: linear-gradient(170deg, #0E1628 0%, #1A2A4A 100%);
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-end .slide-inner {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.slide-end h1 {
+  font-size: 64px;
+  color: white;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #5D9CEC, #62C3A3, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.slide-end .end-subtitle {
+  font-size: 22px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+}
+
+.end-stack {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.end-tag {
+  padding: 10px 22px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===== Navigation ===== */
+.controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(14, 22, 40, 0.85);
+  backdrop-filter: blur(20px);
+  padding: 10px 16px;
+  border-radius: 50px;
+  z-index: 100;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.ctrl-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.ctrl-btn:hover { background: rgba(255,255,255,0.2); }
+.ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.ctrl-counter {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  min-width: 50px;
+  text-align: center;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  z-index: 200;
+  transition: width 0.3s ease;
+}
+
+.slide-num {
+  position: absolute;
+  bottom: 28px;
+  right: 36px;
+  font-size: 13px;
+  color: var(--neutral-500);
+  font-weight: 500;
+}
+
+.slide-section .slide-num,
+.slide-end .slide-num,
+.slide-cover .slide-num {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== Print Mode ===== */
+@media print {
+  html, body { height: auto; overflow: visible; background: white; }
+  .controls, .progress-bar { display: none; }
+  .deck { position: static; width: 100%; height: auto; }
+  .slide {
+    position: relative;
+    opacity: 1 !important;
+    pointer-events: auto;
+    transform: none !important;
+    width: 100%;
+    height: 100vh;
+    page-break-after: always;
+  }
+}
+
+/* Compact responsive */
+@media (max-width: 1100px) {
+  .slide-inner { padding: 40px 50px; }
+  .slide h1 { font-size: 36px; }
+  .slide h2 { font-size: 30px; }
+  .cover-title { font-size: 52px; }
+  .slide-section h1 { font-size: 56px; }
+  .slide-body { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============ Slide 1: Cover ============ -->
+  <section class="slide slide-cover active">
+    <div class="slide-inner">
+      <div class="cover-logo">
+        <div class="cover-logo-icon">Y</div>
+        <div class="cover-logo-text">一Ya好眠</div>
+      </div>
+      <h1 class="cover-title">告別輾轉反側，<br>從這裡開始<span>一夜好眠</span></h1>
+      <p class="cover-subtitle">台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台</p>
+      <div class="cover-meta">
+        <div>📅 <strong>2026 年 4 月</strong></div>
+        <div>👤 <strong>產品介紹簡報</strong></div>
+        <div>🎯 <strong>v1.0</strong></div>
+      </div>
+    </div>
+    <div class="slide-num">01</div>
+  </section>
+
+  <!-- ============ Slide 2: 問題與機會 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">市場洞察</span>
+      <h1>台灣睡眠困擾的市場現況</h1>
+      <p class="subtitle">超過四分之一的成年人深受睡眠問題困擾，但市場資源高度分散</p>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num">540萬+</div>
+          <div class="stat-label">睡眠困擾人口</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">25%</div>
+          <div class="stat-label">成年人受影響</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">分散</div>
+          <div class="stat-label">產業資源</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">缺乏</div>
+          <div class="stat-label">客觀評估管道</div>
+        </div>
+      </div>
+
+      <div class="overview-grid" style="margin-top:36px;">
+        <div class="overview-card">
+          <div class="overview-card-icon icon-yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>痛點一：醫療資源難以觸及</h3>
+            <p>專業醫療資源高度集中於大城市，民眾求診門檻高、等待時間長</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon icon-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <h3>痛點二：產品資訊混亂</h3>
+            <p>市面上助眠產品眾多，缺乏統一的評估與比較標準</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">02</div>
+  </section>
+
+  <!-- ============ Slide 3: 解決方案 Overview ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">解決方案</span>
+      <h1>一站式睡眠健康整合平台</h1>
+      <p class="subtitle">透過 AI 技術整合分散的產業資源，連結使用者、專業人士與醫療體系</p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-card-icon icon-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>AI 睡眠評估</h3>
+            <p>結合標準化量表（PSQI、Epworth）與自然語言主訴分析，提供個人化資源推薦</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon icon-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <h3>個人睡眠記錄</h3>
+            <p>整合 AIoT 智慧裝置數據，視覺化呈現睡眠趨勢與睡眠結構分析</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon icon-yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <h3>專業課程進修</h3>
+            <p>由睡眠專家設計的線上線下課程，分為大眾科普與專業認證兩大類</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon icon-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3>尋找睡眠專家</h3>
+            <p>連結牙醫師、精神科醫師、心理師、睡眠教練等各類專業人士</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">03</div>
+  </section>
+
+  <!-- ============ Section Divider ============ -->
+  <section class="slide slide-section">
+    <div class="slide-inner">
+      <div class="section-num">SECTION 01</div>
+      <h1>產品導覽</h1>
+      <p class="subtitle">7 大核心頁面，完整覆蓋睡眠健康旅程</p>
+    </div>
+    <div class="slide-num">04</div>
+  </section>
+
+  <!-- ============ Slide 5: 首頁 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 1 / 7</span>
+      <h2>首頁 — 品牌入口與價值傳達</h2>
+      <p class="subtitle">以溫馨視覺與清晰 CTA 引導使用者進行首次評估</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>Hero 區塊：</strong>主標題與療癒視覺設計（月亮、星星、漂浮卡片動畫）</li>
+            <li><strong>四大核心數據：</strong>540萬+ 睡眠困擾人口、200+ 合作專業人士、50+ 精選課程、95% 滿意度</li>
+            <li><strong>四大功能介紹：</strong>圖文並茂呈現平台核心服務</li>
+            <li><strong>精選課程展示：</strong>引導使用者瀏覽課程廣場</li>
+            <li><strong>登入/註冊 Modal：</strong>支援 Email 與社群快速登入</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/index-top.png" alt="首頁">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">05</div>
+  </section>
+
+  <!-- ============ Slide 6: 睡眠評估 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 2 / 7</span>
+      <h2>睡眠評估 — AI 驅動的個人化評估</h2>
+      <p class="subtitle">4 步驟引導式評估，結合標準量表與 AI 推薦引擎</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>強制警語：</strong>明確標示非醫療診斷性質，需勾選同意才能繼續</li>
+            <li><strong>步驟一：</strong>基本資料（年齡、性別、職業）</li>
+            <li><strong>步驟二：</strong>PSQI 匹茲堡睡眠品質指數（7 題）</li>
+            <li><strong>步驟三：</strong>Epworth 嗜睡量表（8 個情境）</li>
+            <li><strong>步驟四：</strong>主訴輸入與症狀勾選</li>
+            <li><strong>AI 結果頁：</strong>分數解讀 + 文章/課程/專家推薦</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/assessment-top.png" alt="睡眠評估">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">06</div>
+  </section>
+
+  <!-- ============ Slide 7: 課程廣場 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 3 / 7</span>
+      <h2>課程廣場 — 專業睡眠進修</h2>
+      <p class="subtitle">由睡眠專家設計的線上課程，從入門到專業認證</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>三大分類：</strong>大眾科普、專業進修、專業認證</li>
+            <li><strong>智慧篩選：</strong>點擊標籤即時過濾課程</li>
+            <li><strong>豐富資訊：</strong>講師、評分、堂數、時長、價格</li>
+            <li><strong>代表課程：</strong>CBT-I 完整課程、睡眠教練認證、正念冥想入門</li>
+            <li><strong>講師管理：</strong>專業帳號可申請成為講師發布課程</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/courses-top.png" alt="課程廣場">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">07</div>
+  </section>
+
+  <!-- ============ Slide 8: 尋找專家 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 4 / 7</span>
+      <h2>尋找專家 — 連結專業資源</h2>
+      <p class="subtitle">整合多元睡眠專業領域，協助使用者找到合適的服務</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>多元專業：</strong>牙醫師、精神科專科醫師、心理師、睡眠教練、物理治療師</li>
+            <li><strong>三維篩選：</strong>專長、地區、關鍵字搜尋</li>
+            <li><strong>專家卡片：</strong>真實照片、專長標籤、地點、評分、諮詢次數</li>
+            <li><strong>線上預約：</strong>「預約諮詢」按鈕直接導向預約流程</li>
+            <li><strong>真實資料：</strong>陳欽章醫師、臧鴻儒醫師、鄭哲偉醫師等</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/professionals-top.png" alt="尋找專家">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">08</div>
+  </section>
+
+  <!-- ============ Slide 9: 知識庫 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 5 / 7</span>
+      <h2>知識庫 — 科學實證的睡眠衛教</h2>
+      <p class="subtitle">由專業人士撰寫的睡眠健康文章，提升使用者的睡眠素養</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>五大分類：</strong>睡眠衛教、失眠專題、睡眠呼吸中止、兒童睡眠、助眠技巧</li>
+            <li><strong>文章卡片：</strong>標題、摘要、作者、發布日期、閱讀時間</li>
+            <li><strong>精選主題：</strong>CBT-I 指南、褪黑激素解析、運動與睡眠、兒童睡眠攻略</li>
+            <li><strong>SEO 優化：</strong>作為流量入口，吸引自然搜尋流量</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/articles-top.png" alt="知識庫">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">09</div>
+  </section>
+
+  <!-- ============ Section: 會員專區 ============ -->
+  <section class="slide slide-section">
+    <div class="slide-inner">
+      <div class="section-num">SECTION 02</div>
+      <h1>會員專區</h1>
+      <p class="subtitle">登入後解鎖個人化儀表板與睡眠記錄管理</p>
+    </div>
+    <div class="slide-num">10</div>
+  </section>
+
+  <!-- ============ Slide 11: Dashboard ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 6 / 7 · 登入後</span>
+      <h2>個人儀表板 — 您的睡眠健康中心</h2>
+      <p class="subtitle">登入後的核心頁面，整合所有個人化資訊</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>動態問候：</strong>依時間自動切換早安/午安/晚安</li>
+            <li><strong>四大數據卡片：</strong>睡眠時長、品質分數、深層比例、入睡時間</li>
+            <li><strong>本週趨勢圖：</strong>SVG 面積圖呈現一週睡眠變化</li>
+            <li><strong>側邊欄展開報告：</strong>點擊「睡眠評估」即時展開上次評估報告</li>
+            <li><strong>個人化推薦：</strong>基於評估結果推薦文章與課程</li>
+            <li><strong>通知中心：</strong>系統通知、課程提醒、專家回覆</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/dashboard-top.png" alt="個人儀表板">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">11</div>
+  </section>
+
+  <!-- ============ Slide 12: Sleep Record ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">PAGE 7 / 7 · 登入後</span>
+      <h2>睡眠記錄 — 長期追蹤與管理</h2>
+      <p class="subtitle">整合 AIoT 裝置與手動記錄，視覺化長期睡眠數據</p>
+
+      <div class="slide-body">
+        <div class="slide-text">
+          <ul class="feature-list">
+            <li><strong>裝置整合：</strong>Garmin、智慧手環等 AIoT 裝置自動同步</li>
+            <li><strong>月曆視圖：</strong>綠/黃/紅圓點直觀呈現每日睡眠品質</li>
+            <li><strong>單日詳細數據：</strong>睡眠階段時間軸（清醒/淺層/深層/REM）</li>
+            <li><strong>六項指標：</strong>睡眠時長、深層、REM、心率、血氧、打鼾次數</li>
+            <li><strong>數據分享：</strong>授權專業人士查看個人睡眠數據</li>
+            <li><strong>手動新增：</strong>無裝置使用者可手動記錄</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="screenshots/sleep-record-top.png" alt="睡眠記錄">
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">12</div>
+  </section>
+
+  <!-- ============ Section: 設計與技術 ============ -->
+  <section class="slide slide-section">
+    <div class="slide-inner">
+      <div class="section-num">SECTION 03</div>
+      <h1>設計與技術</h1>
+      <p class="subtitle">專業、溫暖、可信賴的視覺語言</p>
+    </div>
+    <div class="slide-num">13</div>
+  </section>
+
+  <!-- ============ Slide 14: Design System ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-tag">設計系統</span>
+      <h2>色彩系統與設計原則</h2>
+      <p class="subtitle">以「寧靜藍」與「療癒綠」為主，營造無壓力的使用體驗</p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="overview-card-icon" style="background: rgba(93,156,236,0.15);">
+            <div style="width:32px;height:32px;border-radius:8px;background:#5D9CEC;"></div>
+          </div>
+          <div>
+            <h3>主色 — 寧靜藍</h3>
+            <p style="font-family:monospace;color:#5D9CEC;font-weight:600;">#5D9CEC</p>
+            <p>象徵深邃夜空，傳達專業與信賴感</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon" style="background: rgba(98,195,163,0.15);">
+            <div style="width:32px;height:32px;border-radius:8px;background:#62C3A3;"></div>
+          </div>
+          <div>
+            <h3>輔助色 — 療癒綠</h3>
+            <p style="font-family:monospace;color:#62C3A3;font-weight:600;">#62C3A3</p>
+            <p>象徵自然與健康，帶來放鬆感受</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon" style="background: rgba(255,193,7,0.15);">
+            <div style="width:32px;height:32px;border-radius:8px;background:#FFD700;"></div>
+          </div>
+          <div>
+            <h3>強調色 — 溫暖黃</h3>
+            <p style="font-family:monospace;color:#D4A000;font-weight:600;">#FFD700</p>
+            <p>用於重點強調與星星裝飾</p>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="overview-card-icon" style="background: rgba(52,58,64,0.1);">
+            <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#F8F9FA,#343A40);border:1px solid #DEE2E6;"></div>
+          </div>
+          <div>
+            <h3>中性色階</h3>
+            <p style="font-family:monospace;color:#495057;font-weight:600;">#F8F9FA → #343A40</p>
+            <p>10 階灰階，確保資訊層次清晰</p>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:24px; text-align:center; font-size:14px; color:var(--neutral-600);">
+        字體：Noto Sans TC（思源黑體）　·　網格：12 欄響應式　·　圖示：簡潔線性風格
+      </p>
+    </div>
+    <div class="slide-num">14</div>
+  </section>
+
+  <!-- ============ Slide 15: Closing ============ -->
+  <section class="slide slide-end">
+    <div class="slide-inner">
+      <h1>謝謝聆聽</h1>
+      <p class="end-subtitle">改善睡眠，從一Ya好眠開始</p>
+      <div class="end-stack">
+        <span class="end-tag">HTML5</span>
+        <span class="end-tag">CSS3</span>
+        <span class="end-tag">JavaScript</span>
+        <span class="end-tag">SVG Charts</span>
+        <span class="end-tag">Responsive Design</span>
+        <span class="end-tag">Noto Sans TC</span>
+      </div>
+      <div style="margin-top:50px; font-size:14px; color:rgba(255,255,255,0.4);">
+        © 2026 一Ya好眠 · 台灣睡眠健康整合平台
+      </div>
+    </div>
+    <div class="slide-num">15</div>
+  </section>
+
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="ctrl-btn" id="prev" aria-label="上一頁">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="ctrl-counter" id="counter">1 / 15</div>
+  <button class="ctrl-btn" id="next" aria-label="下一頁">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div style="width:1px;height:24px;background:rgba(255,255,255,0.15);"></div>
+  <button class="ctrl-btn" id="fullscreen" aria-label="全螢幕" title="全螢幕 (F)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+const counter = document.getElementById('counter');
+const progress = document.getElementById('progress');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const fullBtn = document.getElementById('fullscreen');
+
+function go(idx) {
+  if (idx < 0 || idx >= total) return;
+  slides[current].classList.remove('active');
+  current = idx;
+  slides[current].classList.add('active');
+  counter.textContent = `${current + 1} / ${total}`;
+  progress.style.width = `${((current + 1) / total) * 100}%`;
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+}
+
+prevBtn.addEventListener('click', () => go(current - 1));
+nextBtn.addEventListener('click', () => go(current + 1));
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    go(current + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    go(current - 1);
+  } else if (e.key === 'Home') {
+    go(0);
+  } else if (e.key === 'End') {
+    go(total - 1);
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  }
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+fullBtn.addEventListener('click', toggleFullscreen);
+
+// init
+go(0);
+
+// Touch swipe
+let startX = 0;
+document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) go(current + 1);
+    else go(current - 1);
+  }
+});
+</script>
+
+</body>
+</html>

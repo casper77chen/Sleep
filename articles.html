@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知識庫 - 一Ya好眠</title>
+  <meta name="description" content="科學實證的睡眠衛教文章，幫助您深入了解睡眠健康。涵蓋睡眠衛教、失眠專題、睡眠呼吸中止、兒童睡眠與助眠技巧。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neutral-800);
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-dashboard {
+      color: #CED4DA;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .btn-dashboard.active {
+      color: #5D9CEC;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .btn-dashboard.active:hover {
+      background: rgba(93, 156, 236, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neutral-700);
+    }
+
+    .btn-ghost:hover {
+      background: var(--neutral-100);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.45);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-large {
+      padding: 14px 36px;
+      font-size: 1.05rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Mobile menu toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--neutral-700);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      padding: 140px 0 60px;
+      background: linear-gradient(170deg, #EEF4FD 0%, #F0FAF6 40%, #FEFCF0 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93, 156, 236, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(98, 195, 163, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: var(--neutral-900);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--neutral-600);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .hero-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .hero-icon svg {
+      width: 32px;
+      height: 32px;
+      color: white;
+    }
+
+    /* ===== Category Filters ===== */
+    .filters {
+      padding: 40px 0 16px;
+      background: var(--white);
+      position: sticky;
+      top: 72px;
+      z-index: 50;
+      border-bottom: 1px solid var(--neutral-200);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-tab {
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 2px solid var(--neutral-200);
+      background: var(--white);
+      color: var(--neutral-600);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--primary-light);
+      color: var(--primary);
+      background: rgba(93, 156, 236, 0.05);
+    }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(93, 156, 236, 0.3);
+    }
+
+    /* ===== Articles Grid ===== */
+    .articles-section {
+      padding: 48px 0 80px;
+      background: var(--neutral-50);
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .article-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .article-banner {
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .article-banner svg {
+      width: 48px;
+      height: 48px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .article-banner-1 {
+      background: linear-gradient(135deg, #5D9CEC, #4A89DC);
+    }
+
+    .article-banner-2 {
+      background: linear-gradient(135deg, #62C3A3, #4EB08F);
+    }
+
+    .article-banner-3 {
+      background: linear-gradient(135deg, #5D9CEC, #62C3A3);
+    }
+
+    .article-banner-4 {
+      background: linear-gradient(135deg, #FFD700, #FFC107);
+    }
+
+    .article-banner-5 {
+      background: linear-gradient(135deg, #62C3A3, #5D9CEC);
+    }
+
+    .article-banner-6 {
+      background: linear-gradient(135deg, #4A89DC, #62C3A3);
+    }
+
+    .article-banner-7 {
+      background: linear-gradient(135deg, #FFD700, #5D9CEC);
+    }
+
+    .article-banner-8 {
+      background: linear-gradient(135deg, #62C3A3, #FFD700);
+    }
+
+    .article-banner::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .article-banner::before {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .article-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .article-category {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .category-睡眠衛教 {
+      background: rgba(93, 156, 236, 0.1);
+      color: var(--primary-dark);
+    }
+
+    .category-失眠專題 {
+      background: rgba(98, 195, 163, 0.1);
+      color: var(--secondary-dark);
+    }
+
+    .category-睡眠呼吸中止 {
+      background: rgba(255, 215, 0, 0.15);
+      color: #B8960C;
+    }
+
+    .category-兒童睡眠 {
+      background: rgba(93, 156, 236, 0.1);
+      color: #3A6FBA;
+    }
+
+    .category-助眠技巧 {
+      background: rgba(98, 195, 163, 0.12);
+      color: #3A8A6E;
+    }
+
+    .article-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--neutral-800);
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .article-excerpt {
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--neutral-100);
+    }
+
+    .article-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .article-author-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-author-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--neutral-700);
+    }
+
+    .article-date {
+      font-size: 0.78rem;
+      color: var(--neutral-500);
+    }
+
+    .article-reading-time {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.82rem;
+      color: var(--neutral-500);
+    }
+
+    .article-reading-time svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .article-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 14px;
+      transition: gap 0.3s ease;
+    }
+
+    .article-link:hover {
+      gap: 10px;
+    }
+
+    .article-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .article-link:hover svg {
+      transform: translateX(2px);
+    }
+
+    /* ===== Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.05s; }
+    .fade-in-delay-2 { transition-delay: 0.1s; }
+    .fade-in-delay-3 { transition-delay: 0.15s; }
+    .fade-in-delay-4 { transition-delay: 0.2s; }
+    .fade-in-delay-5 { transition-delay: 0.25s; }
+    .fade-in-delay-6 { transition-delay: 0.3s; }
+    .fade-in-delay-7 { transition-delay: 0.35s; }
+    .fade-in-delay-8 { transition-delay: 0.4s; }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--neutral-500);
+    }
+
+    .footer h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--primary-light);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: var(--neutral-400);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--primary-light);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .articles-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-actions { display: none; }
+
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 24px;
+        box-shadow: var(--shadow-lg);
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 120px 0 50px;
+      }
+
+      .hero h1 { font-size: 2rem; }
+
+      .filters {
+        padding: 24px 0 12px;
+      }
+
+      .filter-tabs {
+        gap: 8px;
+      }
+
+      .filter-tab {
+        padding: 8px 18px;
+        font-size: 0.88rem;
+      }
+
+      .articles-grid { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.75rem; }
+    }
+
+    /* ===== Prefers reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">Y</div>
+        一Ya好眠
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="assessment.html">睡眠評估</a></li>
+        <li><a href="courses.html">課程廣場</a></li>
+        <li><a href="professionals.html">尋找專家</a></li>
+        <li><a href="articles.html" class="active">知識庫</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-ghost btn-dashboard" id="btnDashboard">睡眠儀表板</a>
+        <button class="btn btn-ghost">登入</button>
+        <button class="btn btn-primary">免費加入</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="開啟選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h1>睡眠知識庫</h1>
+        <p>科學實證的睡眠衛教文章，幫助您深入了解睡眠健康</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Filters -->
+  <section class="filters">
+    <div class="container">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-category="全部">全部</button>
+        <button class="filter-tab" data-category="睡眠衛教">睡眠衛教</button>
+        <button class="filter-tab" data-category="失眠專題">失眠專題</button>
+        <button class="filter-tab" data-category="睡眠呼吸中止">睡眠呼吸中止</button>
+        <button class="filter-tab" data-category="兒童睡眠">兒童睡眠</button>
+        <button class="filter-tab" data-category="助眠技巧">助眠技巧</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles Grid -->
+  <section class="articles-section">
+    <div class="container">
+      <div class="articles-grid">
+
+        <!-- Article 1 -->
+        <article class="article-card fade-in fade-in-delay-1" data-category="睡眠衛教">
+          <div class="article-banner article-banner-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-睡眠衛教">睡眠衛教</span>
+            <h3 class="article-title">什麼是睡眠衛生？12個提升睡眠品質的黃金法則</h3>
+            <p class="article-excerpt">良好的睡眠衛生習慣是改善睡眠品質的第一步，從環境布置到日常作息，掌握這些關鍵原則讓您夜夜好眠。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">陳</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">陳醫師</span>
+                  <span class="article-date">2026-03-15</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                8分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card fade-in fade-in-delay-2" data-category="失眠專題">
+          <div class="article-banner article-banner-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-失眠專題">失眠專題</span>
+            <h3 class="article-title">失眠怎麼辦？認知行為治療(CBT-I)完整指南</h3>
+            <p class="article-excerpt">CBT-I是目前治療慢性失眠最有效的非藥物方法，透過改變睡眠認知與行為，從根本解決失眠問題。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">李</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">李心理師</span>
+                  <span class="article-date">2026-03-10</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                12分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card fade-in fade-in-delay-3" data-category="睡眠呼吸中止">
+          <div class="article-banner article-banner-3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-睡眠呼吸中止">睡眠呼吸中止</span>
+            <h3 class="article-title">睡眠呼吸中止症：您需要知道的一切</h3>
+            <p class="article-excerpt">台灣約有5%的成年人患有睡眠呼吸中止症，了解症狀、診斷方式與治療選項，守護您的夜間呼吸健康。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">臧</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">臧醫師</span>
+                  <span class="article-date">2026-03-08</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                10分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="article-card fade-in fade-in-delay-4" data-category="助眠技巧">
+          <div class="article-banner article-banner-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-助眠技巧">助眠技巧</span>
+            <h3 class="article-title">正念冥想如何改善睡眠？科學研究告訴你</h3>
+            <p class="article-excerpt">研究顯示，每天練習正念冥想20分鐘，能有效降低入睡時間並提升整體睡眠品質與深度睡眠比例。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">王</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">王老師</span>
+                  <span class="article-date">2026-03-05</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                6分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="article-card fade-in fade-in-delay-5" data-category="兒童睡眠">
+          <div class="article-banner article-banner-5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-兒童睡眠">兒童睡眠</span>
+            <h3 class="article-title">兒童睡眠問題全攻略：從新生兒到青少年</h3>
+            <p class="article-excerpt">不同年齡的孩子需要不同的睡眠時數，從嬰幼兒到青少年，全面解析各階段的睡眠需求與常見問題。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">鄭</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">鄭醫師</span>
+                  <span class="article-date">2026-02-28</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                15分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 6 -->
+        <article class="article-card fade-in fade-in-delay-6" data-category="睡眠衛教">
+          <div class="article-banner article-banner-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-睡眠衛教">睡眠衛教</span>
+            <h3 class="article-title">褪黑激素真的有效嗎？安眠藥物的利與弊</h3>
+            <p class="article-excerpt">了解各類助眠藥物的作用機制與副作用，幫助您在醫師指導下做出更明智的治療選擇。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">陳</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">陳醫師</span>
+                  <span class="article-date">2026-02-25</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                9分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 7 -->
+        <article class="article-card fade-in fade-in-delay-7" data-category="失眠專題">
+          <div class="article-banner article-banner-7">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-失眠專題">失眠專題</span>
+            <h3 class="article-title">夜間磨牙與睡眠品質的關聯</h3>
+            <p class="article-excerpt">磨牙不僅影響牙齒健康，更會嚴重干擾深度睡眠，了解成因與治療方式，改善您的夜間睡眠品質。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">張</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">張教練</span>
+                  <span class="article-date">2026-02-20</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                7分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 8 -->
+        <article class="article-card fade-in fade-in-delay-8" data-category="助眠技巧">
+          <div class="article-banner article-banner-8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="article-body">
+            <span class="article-category category-助眠技巧">助眠技巧</span>
+            <h3 class="article-title">運動與睡眠：最佳運動時間與強度建議</h3>
+            <p class="article-excerpt">適度運動可以顯著改善睡眠品質，但時間和強度很重要，掌握科學建議讓運動成為助眠好幫手。</p>
+            <div class="article-meta">
+              <div class="article-author">
+                <div class="article-avatar">王</div>
+                <div class="article-author-info">
+                  <span class="article-author-name">王治療師</span>
+                  <span class="article-date">2026-02-15</span>
+                </div>
+              </div>
+              <div class="article-reading-time">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                8分鐘
+              </div>
+            </div>
+            <a href="#" class="article-link">
+              閱讀更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">Y</div>
+            一Ya好眠
+          </div>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。</p>
+        </div>
+        <div>
+          <h4>快速連結</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="assessment.html">睡眠評估</a></li>
+            <li><a href="courses.html">課程廣場</a></li>
+            <li><a href="professionals.html">尋找專家</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>資源</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">知識庫</a></li>
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">隱私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>聯絡方式</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@yagoodsleep.com
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" aria-label="Line">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 一Ya好眠. 版權所有。</p>
+        <div class="footer-legal">
+          <a href="#">服務條款</a>
+          <a href="#">隱私政策</a>
+          <a href="#">Cookie設定</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check login state
+    if (localStorage.getItem('yya_logged_in')) {
+      document.getElementById('btnDashboard').classList.add('active');
+    }
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Category filter tabs
+    const tabs = document.querySelectorAll('.filter-tab');
+    const cards = document.querySelectorAll('.article-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const category = tab.dataset.category;
+
+        cards.forEach(card => {
+          if (category === '全部' || card.dataset.category === category) {
+            card.style.display = '';
+            // Re-trigger fade-in
+            card.classList.remove('visible');
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                card.classList.add('visible');
+              });
+            });
+          } else {
+            card.style.display = 'none';
+            card.classList.remove('visible');
+          }
+        });
+      });
+    });
+
+    // Fade-in on scroll
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

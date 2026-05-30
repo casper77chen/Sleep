@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課程廣場 - 一Ya好眠</title>
+  <meta name="description" content="由睡眠領域專業人士精心設計的課程，適合大眾與專業人士。探索失眠治療、睡眠教練認證、正念冥想等多元課程。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --purple: #9B59B6;
+      --purple-dark: #8E44AD;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neutral-800);
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-dashboard {
+      color: #CED4DA;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .btn-dashboard.active {
+      color: #5D9CEC;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .btn-dashboard.active:hover {
+      background: rgba(93, 156, 236, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neutral-700);
+    }
+
+    .btn-ghost:hover {
+      background: var(--neutral-100);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.45);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-large {
+      padding: 14px 36px;
+      font-size: 1.05rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Mobile menu toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--neutral-700);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(170deg, #EEF4FD 0%, #F0FAF6 40%, #FEFCF0 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93, 156, 236, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(98, 195, 163, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--neutral-900);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--neutral-600);
+      line-height: 1.7;
+    }
+
+    /* ===== Filter Tabs ===== */
+    .filter-section {
+      padding: 48px 0 0;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 2px solid var(--neutral-200);
+      background: var(--white);
+      color: var(--neutral-600);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.3);
+    }
+
+    /* ===== Course Grid ===== */
+    .courses-section {
+      padding: 48px 0 100px;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .course-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--neutral-200);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+
+    .course-image {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .course-image.gradient-blue {
+      background: linear-gradient(135deg, #5D9CEC, #4A89DC);
+    }
+
+    .course-image.gradient-green {
+      background: linear-gradient(135deg, #62C3A3, #4EB08F);
+    }
+
+    .course-image.gradient-purple {
+      background: linear-gradient(135deg, #9B59B6, #8E44AD);
+    }
+
+    .course-image.gradient-blue-green {
+      background: linear-gradient(135deg, #5D9CEC, #62C3A3);
+    }
+
+    .course-image.gradient-purple-blue {
+      background: linear-gradient(135deg, #9B59B6, #5D9CEC);
+    }
+
+    .course-image.gradient-green-blue {
+      background: linear-gradient(135deg, #62C3A3, #5D9CEC);
+    }
+
+    .course-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .course-icon svg {
+      width: 36px;
+      height: 36px;
+      color: white;
+    }
+
+    .course-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .badge-popular { background: rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
+    .badge-pro { background: rgba(255,215,0,0.35); backdrop-filter: blur(4px); color: #fff; }
+    .badge-cert { background: rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
+
+    .course-body {
+      padding: 20px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .course-category {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+
+    .category-popular {
+      background: rgba(98, 195, 163, 0.12);
+      color: var(--secondary-dark);
+    }
+
+    .category-pro {
+      background: rgba(93, 156, 236, 0.12);
+      color: var(--primary-dark);
+    }
+
+    .category-cert {
+      background: rgba(155, 89, 182, 0.12);
+      color: var(--purple);
+    }
+
+    .course-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .course-instructor {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      margin-bottom: 8px;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .stars svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--accent);
+    }
+
+    .stars svg.half {
+      fill: url(#starGradient);
+    }
+
+    .stars svg.empty {
+      fill: var(--neutral-300);
+    }
+
+    .rating-score {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--neutral-800);
+    }
+
+    .rating-count {
+      font-size: 0.8rem;
+      color: var(--neutral-500);
+    }
+
+    .course-desc {
+      font-size: 0.88rem;
+      color: var(--neutral-600);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--neutral-500);
+      margin-bottom: 16px;
+    }
+
+    .course-meta svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .course-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--neutral-100);
+    }
+
+    .course-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .btn-course {
+      padding: 8px 20px;
+      font-size: 0.88rem;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-course:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--neutral-500);
+    }
+
+    .footer h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--primary-light);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: var(--neutral-400);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--primary-light);
+    }
+
+    /* ===== Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-actions { display: none; }
+      .nav-toggle { display: flex; }
+
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 24px;
+        box-shadow: var(--shadow-lg);
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 120px 0 60px;
+      }
+
+      .hero h1 { font-size: 2rem; }
+
+      .filter-tabs { gap: 8px; }
+      .filter-tab { padding: 8px 20px; font-size: 0.88rem; }
+
+      .courses-grid { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.75rem; }
+      .filter-tab { padding: 7px 16px; font-size: 0.82rem; }
+    }
+
+    /* ===== Prefers reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Defs for half-star gradient -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="50%" stop-color="#FFD700"/>
+        <stop offset="50%" stop-color="#DEE2E6"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">Y</div>
+        一Ya好眠
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="assessment.html">睡眠評估</a></li>
+        <li><a href="courses.html" class="active">課程廣場</a></li>
+        <li><a href="professionals.html">尋找專家</a></li>
+        <li><a href="articles.html">知識庫</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-ghost btn-dashboard" id="btnDashboard">睡眠儀表板</a>
+        <button class="btn btn-ghost">登入</button>
+        <button class="btn btn-primary">免費加入</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="開啟選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>課程廣場</h1>
+        <p>由睡眠領域專業人士精心設計的課程，適合大眾與專業人士</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Tabs -->
+  <section class="filter-section">
+    <div class="container">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">全部</button>
+        <button class="filter-tab" data-filter="大眾科普">大眾科普</button>
+        <button class="filter-tab" data-filter="專業進修">專業進修</button>
+        <button class="filter-tab" data-filter="專業認證">專業認證</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Grid -->
+  <section class="courses-section">
+    <div class="container">
+      <div class="courses-grid" id="coursesGrid">
+
+        <!-- Course 1: CBT-I -->
+        <div class="course-card fade-in" data-category="專業進修">
+          <div class="course-image gradient-blue">
+            <span class="course-badge badge-pro">專業進修</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-pro">專業進修</span>
+            <h3 class="course-title">失眠認知行為治療(CBT-I)完整課程</h3>
+            <p class="course-instructor">林醫師</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="half" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.8</span>
+              <span class="rating-count">(320評價)</span>
+            </div>
+            <p class="course-desc">深入學習CBT-I的理論與實務技巧，掌握失眠認知行為治療的核心方法。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              12堂課 ・ 共18小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$3,800</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2: Sleep Coach Cert -->
+        <div class="course-card fade-in" data-category="專業認證">
+          <div class="course-image gradient-purple">
+            <span class="course-badge badge-cert">專業認證</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-cert">專業認證</span>
+            <h3 class="course-title">睡眠教練師認證培訓課程</h3>
+            <p class="course-instructor">張教練</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.9</span>
+              <span class="rating-count">(150評價)</span>
+            </div>
+            <p class="course-desc">取得國際認證的睡眠教練資格，成為專業的睡眠健康指導人員。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              20堂課 ・ 共36小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$12,000</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3: Mindfulness -->
+        <div class="course-card fade-in" data-category="大眾科普">
+          <div class="course-image gradient-green">
+            <span class="course-badge badge-popular">大眾科普</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-popular">大眾科普</span>
+            <h3 class="course-title">正念冥想與助眠引導入門</h3>
+            <p class="course-instructor">王老師</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="half" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.7</span>
+              <span class="rating-count">(280評價)</span>
+            </div>
+            <p class="course-desc">學習正念冥想技巧，改善睡前放鬆，建立健康的入睡儀式。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              8堂課 ・ 共6小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$1,200</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4: Children Sleep -->
+        <div class="course-card fade-in" data-category="大眾科普">
+          <div class="course-image gradient-blue-green">
+            <span class="course-badge badge-popular">大眾科普</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-popular">大眾科普</span>
+            <h3 class="course-title">兒童睡眠問題與解決方案</h3>
+            <p class="course-instructor">鄭醫師</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="half" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.6</span>
+              <span class="rating-count">(180評價)</span>
+            </div>
+            <p class="course-desc">為新手父母設計的兒童睡眠改善課程，解決常見的兒童睡眠困擾。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              10堂課 ・ 共8小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$1,500</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 5: Sleep Apnea -->
+        <div class="course-card fade-in" data-category="專業進修">
+          <div class="course-image gradient-purple-blue">
+            <span class="course-badge badge-pro">專業進修</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-pro">專業進修</span>
+            <h3 class="course-title">睡眠呼吸中止症的評估與處置</h3>
+            <p class="course-instructor">臧醫師</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="half" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.8</span>
+              <span class="rating-count">(95評價)</span>
+            </div>
+            <p class="course-desc">從診斷到治療的完整臨床知識，掌握睡眠呼吸中止症的專業處置。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              15堂課 ・ 共24小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$5,600</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 6: Workplace Stress -->
+        <div class="course-card fade-in" data-category="大眾科普">
+          <div class="course-image gradient-green-blue">
+            <span class="course-badge badge-popular">大眾科普</span>
+            <div class="course-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <div class="course-body">
+            <span class="course-category category-popular">大眾科普</span>
+            <h3 class="course-title">職場壓力與睡眠管理工作坊</h3>
+            <p class="course-instructor">李心理師</p>
+            <div class="course-rating">
+              <div class="stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="half" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-score">4.5</span>
+              <span class="rating-count">(420評價)</span>
+            </div>
+            <p class="course-desc">學習有效的壓力管理與助眠策略，改善因工作壓力導致的睡眠問題。</p>
+            <div class="course-meta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              6堂課 ・ 共4小時
+            </div>
+            <div class="course-footer">
+              <span class="course-price">NT$800</span>
+              <button class="btn-course">查看課程</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">Y</div>
+            一Ya好眠
+          </div>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。</p>
+        </div>
+        <div>
+          <h4>快速連結</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="assessment.html">睡眠評估</a></li>
+            <li><a href="courses.html">課程廣場</a></li>
+            <li><a href="professionals.html">尋找專家</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>資源</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">知識庫</a></li>
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">隱私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>聯絡方式</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@yagoodsleep.com
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" aria-label="Line">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 一Ya好眠. 版權所有。</p>
+        <div class="footer-legal">
+          <a href="#">服務條款</a>
+          <a href="#">隱私政策</a>
+          <a href="#">Cookie設定</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check login state
+    if (localStorage.getItem('yya_logged_in')) {
+      document.getElementById('btnDashboard').classList.add('active');
+    }
+
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Filter tabs
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const courseCards = document.querySelectorAll('.course-card');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const filter = tab.dataset.filter;
+
+        courseCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = 'flex';
+            // Re-trigger fade-in
+            card.classList.remove('visible');
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                card.classList.add('visible');
+              });
+            });
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Scroll animation (Intersection Observer)
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

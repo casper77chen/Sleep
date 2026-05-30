@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一Ya好眠 - 台灣睡眠健康整合平台</title>
+  <meta name="description" content="台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。透過AI評估、個人記錄、專業課程與專家諮詢，幫助您改善睡眠品質。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neutral-800);
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-dashboard {
+      color: var(--neutral-400);
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .btn-dashboard.active {
+      color: var(--primary);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .btn-dashboard.active:hover {
+      background: rgba(93, 156, 236, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neutral-700);
+    }
+
+    .btn-ghost:hover {
+      background: var(--neutral-100);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.45);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-large {
+      padding: 14px 36px;
+      font-size: 1.05rem;
+      border-radius: var(--radius-md);
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Mobile menu toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--neutral-700);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      padding: 160px 0 100px;
+      background: linear-gradient(170deg, #EEF4FD 0%, #F0FAF6 40%, #FEFCF0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93, 156, 236, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(98, 195, 163, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 560px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(93, 156, 236, 0.1);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--neutral-900);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--neutral-600);
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-illustration {
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 1;
+      position: relative;
+    }
+
+    .hero-circle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-circle-1 {
+      width: 320px;
+      height: 320px;
+      background: linear-gradient(135deg, rgba(93, 156, 236, 0.15), rgba(98, 195, 163, 0.1));
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-circle-2 {
+      width: 240px;
+      height: 240px;
+      background: linear-gradient(135deg, rgba(98, 195, 163, 0.12), rgba(93, 156, 236, 0.08));
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -2s;
+    }
+
+    .hero-circle-3 {
+      width: 160px;
+      height: 160px;
+      background: linear-gradient(135deg, rgba(93, 156, 236, 0.2), rgba(98, 195, 163, 0.15));
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -4s;
+    }
+
+    .hero-moon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .hero-moon svg {
+      width: 100px;
+      height: 100px;
+      filter: drop-shadow(0 4px 20px rgba(93, 156, 236, 0.3));
+    }
+
+    .hero-star {
+      position: absolute;
+      z-index: 3;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    .hero-star-1 { top: 15%; right: 20%; animation-delay: 0s; }
+    .hero-star-2 { top: 25%; left: 15%; animation-delay: 1s; }
+    .hero-star-3 { bottom: 30%; right: 15%; animation-delay: 0.5s; }
+    .hero-star-4 { top: 35%; right: 35%; animation-delay: 1.5s; }
+    .hero-star-5 { bottom: 20%; left: 25%; animation-delay: 2s; }
+
+    .hero-float-card {
+      position: absolute;
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-lg);
+      z-index: 4;
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    .hero-float-card-1 {
+      top: 10%;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-float-card-2 {
+      bottom: 15%;
+      left: 0;
+      animation-delay: -2.5s;
+    }
+
+    .float-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .float-icon-blue {
+      background: rgba(93, 156, 236, 0.12);
+      color: var(--primary);
+    }
+
+    .float-icon-green {
+      background: rgba(98, 195, 163, 0.12);
+      color: var(--secondary);
+    }
+
+    .float-text {
+      font-size: 0.8rem;
+      color: var(--neutral-600);
+    }
+
+    .float-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -52%) scale(1.03); }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ===== Stats Section ===== */
+    .stats {
+      padding: 0;
+      margin-top: -50px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.5rem;
+    }
+
+    .stat-icon-blue { background: rgba(93, 156, 236, 0.1); color: var(--primary); }
+    .stat-icon-green { background: rgba(98, 195, 163, 0.1); color: var(--secondary); }
+    .stat-icon-yellow { background: rgba(255, 215, 0, 0.1); color: var(--accent-warm); }
+    .stat-icon-purple { background: rgba(149, 117, 205, 0.1); color: #9575CD; }
+
+    .stat-number {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: var(--neutral-900);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--neutral-600);
+      margin-top: 4px;
+    }
+
+    /* ===== Features Section ===== */
+    .features {
+      padding: 100px 0;
+      background: var(--white);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .section-tag-blue {
+      background: rgba(93, 156, 236, 0.1);
+      color: var(--primary);
+    }
+
+    .section-tag-green {
+      background: rgba(98, 195, 163, 0.1);
+      color: var(--secondary);
+    }
+
+    .section-header h2 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: var(--neutral-900);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--neutral-600);
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      border: 1px solid var(--neutral-200);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .feature-icon-1 { background: linear-gradient(135deg, rgba(93, 156, 236, 0.15), rgba(93, 156, 236, 0.05)); }
+    .feature-icon-2 { background: linear-gradient(135deg, rgba(98, 195, 163, 0.15), rgba(98, 195, 163, 0.05)); }
+    .feature-icon-3 { background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05)); }
+    .feature-icon-4 { background: linear-gradient(135deg, rgba(149, 117, 205, 0.15), rgba(149, 117, 205, 0.05)); }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--neutral-600);
+      line-height: 1.7;
+    }
+
+    /* ===== Courses Section ===== */
+    .courses {
+      padding: 100px 0;
+      background: var(--neutral-50);
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      border: 1px solid var(--neutral-200);
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+
+    .course-image {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-image-bg {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .course-image-bg-1 {
+      background: linear-gradient(135deg, #5D9CEC, #4A89DC);
+    }
+
+    .course-image-bg-2 {
+      background: linear-gradient(135deg, #62C3A3, #4EB08F);
+    }
+
+    .course-image-bg-3 {
+      background: linear-gradient(135deg, #9575CD, #7E57C2);
+    }
+
+    .course-image-icon {
+      font-size: 3rem;
+      opacity: 0.9;
+    }
+
+    .course-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .badge-blue { background: var(--primary); }
+    .badge-green { background: var(--secondary); }
+    .badge-purple { background: #9575CD; }
+
+    .course-body {
+      padding: 24px;
+    }
+
+    .course-body h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .course-instructor {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .course-instructor-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--neutral-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--neutral-600);
+      overflow: hidden;
+    }
+
+    .course-instructor-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .course-instructor span {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .course-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      color: var(--accent-warm);
+      font-weight: 600;
+    }
+
+    .course-rating .reviews {
+      color: var(--neutral-500);
+      font-weight: 400;
+    }
+
+    .course-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .course-action {
+      width: 100%;
+    }
+
+    .course-action .btn {
+      width: 100%;
+    }
+
+    .courses-more {
+      text-align: center;
+    }
+
+    .courses-more a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      transition: gap 0.3s ease;
+    }
+
+    .courses-more a:hover {
+      gap: 12px;
+    }
+
+    /* ===== CTA Section ===== */
+    .cta {
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .cta::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .cta-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta h2 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--neutral-500);
+    }
+
+    .footer h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--primary-light);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: var(--neutral-400);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--primary-light);
+    }
+
+    /* ===== Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .hero h1 { font-size: 2.25rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 24px;
+        box-shadow: var(--shadow-lg);
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 120px 0 80px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+
+      .hero-content { max-width: 100%; }
+      .hero-buttons { justify-content: center; }
+
+      .hero h1 { font-size: 2rem; }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .section-header h2 { font-size: 1.75rem; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr; }
+
+      .cta h2 { font-size: 1.75rem; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.75rem; }
+      .hero-buttons { flex-direction: column; align-items: stretch; }
+      .stat-number { font-size: 1.75rem; }
+    }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+      margin: 24px;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--neutral-100);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neutral-600);
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--neutral-200);
+      color: var(--neutral-800);
+    }
+
+    .modal-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--neutral-800);
+      margin-bottom: 8px;
+    }
+
+    .modal-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 6px;
+    }
+
+    .modal .modal-subtitle {
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--neutral-800);
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93, 156, 236, 0.15);
+    }
+
+    .form-input::placeholder {
+      color: var(--neutral-400);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+    }
+
+    .form-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--neutral-600);
+      cursor: pointer;
+    }
+
+    .form-options a {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .form-options a:hover {
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.4);
+    }
+
+    .modal-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      color: var(--neutral-500);
+      font-size: 0.85rem;
+    }
+
+    .modal-divider::before,
+    .modal-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--neutral-200);
+    }
+
+    .social-login {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid var(--neutral-200);
+      border-radius: var(--radius-sm);
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: all 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: var(--neutral-400);
+      background: var(--neutral-50);
+    }
+
+    .modal-footer-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+    }
+
+    .modal-footer-text a {
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    .form-radio-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .form-radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    /* ===== Prefers reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-circle,
+      .hero-star,
+      .hero-float-card,
+      .fade-in {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">Y</div>
+        一Ya好眠
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="assessment.html">睡眠評估</a></li>
+        <li><a href="courses.html">課程廣場</a></li>
+        <li><a href="professionals.html">尋找專家</a></li>
+        <li><a href="articles.html">知識庫</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-ghost btn-dashboard" id="btnDashboard">睡眠儀表板</a>
+        <button class="btn btn-ghost" onclick="openModal('loginModal')">登入</button>
+        <button class="btn btn-primary" onclick="openModal('signupModal')">免費加入</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="開啟選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            台灣首個睡眠健康整合平台
+          </div>
+          <h1>告別輾轉反側，<br>從這裡開始<span>一夜好眠</span></h1>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。透過AI評估、個人記錄、專業課程與專家諮詢，幫助您改善睡眠品質。</p>
+          <div class="hero-buttons">
+            <a href="assessment.html" class="btn btn-primary btn-large">免費開始我的睡眠評估</a>
+            <a href="#features-section" class="btn btn-secondary btn-large">了解更多</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-illustration">
+            <!-- Floating circles -->
+            <div class="hero-circle hero-circle-1"></div>
+            <div class="hero-circle hero-circle-2"></div>
+            <div class="hero-circle hero-circle-3"></div>
+
+            <!-- Moon icon -->
+            <div class="hero-moon">
+              <svg viewBox="0 0 100 100" fill="none">
+                <path d="M75 50c0-16.57-13.43-30-30-30a30.07 30.07 0 0 0-5.17.45A25 25 0 0 1 60 45a25 25 0 0 1-20.17 24.55A30.07 30.07 0 0 0 45 70c16.57 0 30-13.43 30-30z" fill="url(#moonGrad)"/>
+                <defs>
+                  <linearGradient id="moonGrad" x1="40" y1="20" x2="75" y2="70" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#5D9CEC"/>
+                    <stop offset="1" stop-color="#62C3A3"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <!-- Stars -->
+            <div class="hero-star hero-star-1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="hero-star hero-star-2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFD700" opacity="0.7"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="hero-star hero-star-3">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#FFD700" opacity="0.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="hero-star hero-star-4">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="#FFD700" opacity="0.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="hero-star hero-star-5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFD700" opacity="0.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+
+            <!-- Floating cards -->
+            <div class="hero-float-card hero-float-card-1">
+              <div class="float-icon float-icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              </div>
+              <div>
+                <div class="float-text">睡眠品質</div>
+                <div class="float-value">92 分</div>
+              </div>
+            </div>
+            <div class="hero-float-card hero-float-card-2">
+              <div class="float-icon float-icon-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div>
+                <div class="float-text">深度睡眠</div>
+                <div class="float-value">2.5 小時</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-icon stat-icon-blue">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="stat-number">540萬+</div>
+          <div class="stat-label">台灣睡眠困擾人口</div>
+        </div>
+        <div class="stat-card fade-in fade-in-delay-1">
+          <div class="stat-icon stat-icon-green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          </div>
+          <div class="stat-number">200+</div>
+          <div class="stat-label">合作專業人士</div>
+        </div>
+        <div class="stat-card fade-in fade-in-delay-2">
+          <div class="stat-icon stat-icon-yellow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="stat-number">50+</div>
+          <div class="stat-label">精選線上課程</div>
+        </div>
+        <div class="stat-card fade-in fade-in-delay-3">
+          <div class="stat-icon stat-icon-purple">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          </div>
+          <div class="stat-number">95%</div>
+          <div class="stat-label">使用者滿意度</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features-section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-tag section-tag-blue">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          核心功能
+        </div>
+        <h2>平台四大核心功能</h2>
+        <p>一站式解決您的睡眠健康需求</p>
+      </div>
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card fade-in">
+          <div class="feature-icon feature-icon-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5D9CEC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h3>AI睡眠評估</h3>
+          <p>填寫量表與主訴，AI為您推薦最適合的資源</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="feature-card fade-in fade-in-delay-1">
+          <div class="feature-icon feature-icon-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#62C3A3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>個人睡眠記錄</h3>
+          <p>整合AIoT裝置，視覺化追蹤您的睡眠趨勢</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="feature-card fade-in fade-in-delay-2">
+          <div class="feature-icon feature-icon-3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <h3>專業課程進修</h3>
+          <p>線上線下課程，適合大眾與專業人士</p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="feature-card fade-in fade-in-delay-3">
+          <div class="feature-icon feature-icon-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#9575CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3>尋找睡眠專家</h3>
+          <p>連結心理師、睡眠教練等各類專業人士</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses Section -->
+  <section class="courses" id="courses">
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-tag section-tag-green">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 6 3 6 3s3 0 6-3v-5"/></svg>
+          精選課程
+        </div>
+        <h2>精選課程</h2>
+        <p>由專業人士講授，提升您的睡眠健康知識</p>
+      </div>
+      <div class="courses-grid">
+        <!-- Course 1 -->
+        <div class="course-card fade-in">
+          <div class="course-image">
+            <div class="course-image-bg course-image-bg-1">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                <circle cx="8" cy="11" r="1" fill="rgba(255,255,255,0.9)"/>
+                <circle cx="14" cy="11" r="1" fill="rgba(255,255,255,0.9)"/>
+                <path d="M9 15s1.5 1 3 1 3-1 3-1"/>
+              </svg>
+            </div>
+            <span class="course-badge badge-blue">專業進修</span>
+          </div>
+          <div class="course-body">
+            <h3>失眠認知行為治療 (CBT-I) 完整課程</h3>
+            <div class="course-instructor">
+              <div class="course-instructor-avatar">林</div>
+              <span>林醫師</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.8 <span class="reviews">(320評價)</span>
+              </div>
+              <div class="course-price">NT$3,800</div>
+            </div>
+            <div class="course-action">
+              <button class="btn btn-primary" style="width:100%">查看課程</button>
+            </div>
+          </div>
+        </div>
+        <!-- Course 2 -->
+        <div class="course-card fade-in fade-in-delay-1">
+          <div class="course-image">
+            <div class="course-image-bg course-image-bg-2">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 6 3 6 3s3 0 6-3v-5"/>
+              </svg>
+            </div>
+            <span class="course-badge badge-green">專業認證</span>
+          </div>
+          <div class="course-body">
+            <h3>睡眠教練師認證培訓課程</h3>
+            <div class="course-instructor">
+              <div class="course-instructor-avatar">張</div>
+              <span>張教練</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.9 <span class="reviews">(150評價)</span>
+              </div>
+              <div class="course-price">NT$12,000</div>
+            </div>
+            <div class="course-action">
+              <button class="btn btn-primary" style="width:100%">查看課程</button>
+            </div>
+          </div>
+        </div>
+        <!-- Course 3 -->
+        <div class="course-card fade-in fade-in-delay-2">
+          <div class="course-image">
+            <div class="course-image-bg course-image-bg-3">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <span class="course-badge badge-purple">大眾科普</span>
+          </div>
+          <div class="course-body">
+            <h3>正念冥想與助眠引導入門</h3>
+            <div class="course-instructor">
+              <div class="course-instructor-avatar">王</div>
+              <span>王老師</span>
+            </div>
+            <div class="course-meta">
+              <div class="course-rating">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.7 <span class="reviews">(280評價)</span>
+              </div>
+              <div class="course-price">NT$1,200</div>
+            </div>
+            <div class="course-action">
+              <button class="btn btn-primary" style="width:100%">查看課程</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="courses-more fade-in">
+        <a href="courses.html">
+          瀏覽所有課程
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-content fade-in">
+        <h2>準備好改善您的睡眠了嗎？</h2>
+        <p>立即開始免費的睡眠評估，獲得AI為您量身訂製的建議</p>
+        <a href="assessment.html" class="btn btn-white btn-large">開始評估</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">Y</div>
+            一Ya好眠
+          </div>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。</p>
+        </div>
+        <div>
+          <h4>快速連結</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="assessment.html">睡眠評估</a></li>
+            <li><a href="courses.html">課程廣場</a></li>
+            <li><a href="professionals.html">尋找專家</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>資源</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">知識庫</a></li>
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">隱私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>聯絡方式</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@yagoodsleep.com
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" aria-label="Line">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 一Ya好眠. 版權所有。</p>
+        <div class="footer-legal">
+          <a href="#">服務條款</a>
+          <a href="#">隱私政策</a>
+          <a href="#">Cookie設定</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('loginModal')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-logo">
+        <div class="modal-logo-icon">Y</div>
+        一Ya好眠
+      </div>
+      <h2>歡迎回來</h2>
+      <p class="modal-subtitle">登入您的帳號以繼續</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">電子郵件</label>
+          <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">密碼</label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="請輸入密碼" required>
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox"> 記住我</label>
+          <a href="#">忘記密碼？</a>
+        </div>
+        <button type="submit" class="btn-submit">登入</button>
+      </form>
+      <div class="modal-divider">或</div>
+      <div class="social-login">
+        <button class="social-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#4285F4"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Google
+        </button>
+        <button class="social-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#06C755"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+          Line
+        </button>
+      </div>
+      <p class="modal-footer-text">還沒有帳號？<a onclick="closeModal('loginModal'); openModal('signupModal')">免費註冊</a></p>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('signupModal')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-logo">
+        <div class="modal-logo-icon">Y</div>
+        一Ya好眠
+      </div>
+      <h2>免費加入</h2>
+      <p class="modal-subtitle">建立帳號，開始改善您的睡眠</p>
+      <form onsubmit="handleSignup(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="signupLastName">姓氏</label>
+            <input type="text" id="signupLastName" class="form-input" placeholder="王" required>
+          </div>
+          <div class="form-group">
+            <label for="signupFirstName">名字</label>
+            <input type="text" id="signupFirstName" class="form-input" placeholder="小明" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">電子郵件</label>
+          <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">密碼</label>
+          <input type="password" id="signupPassword" class="form-input" placeholder="至少8個字元" required minlength="8">
+        </div>
+        <div class="form-group">
+          <label>帳號類型</label>
+          <div class="form-radio-group">
+            <label><input type="radio" name="accountType" value="general" checked> 一般使用者</label>
+            <label><input type="radio" name="accountType" value="professional"> 專業人士</label>
+          </div>
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox" required> 我同意<a href="#">服務條款</a>與<a href="#">隱私政策</a></label>
+        </div>
+        <button type="submit" class="btn-submit">建立帳號</button>
+      </form>
+      <div class="modal-divider">或</div>
+      <div class="social-login">
+        <button class="social-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#4285F4"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Google
+        </button>
+        <button class="social-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#06C755"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+          Line
+        </button>
+      </div>
+      <p class="modal-footer-text">已有帳號？<a onclick="closeModal('signupModal'); openModal('loginModal')">登入</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Scroll animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Modal functions
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(m => {
+          m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Check login state on load
+    if (localStorage.getItem('yya_logged_in')) {
+      document.getElementById('btnDashboard').classList.add('active');
+    }
+
+    // Form handlers
+    function handleLogin(e) {
+      e.preventDefault();
+      localStorage.setItem('yya_logged_in', 'true');
+      closeModal('loginModal');
+      document.getElementById('btnDashboard').classList.add('active');
+      showToast('登入成功！正在前往儀表板...');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      localStorage.setItem('yya_logged_in', 'true');
+      closeModal('signupModal');
+      document.getElementById('btnDashboard').classList.add('active');
+      showToast('註冊成功！正在前往儀表板...');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+    }
+
+    // Simple toast notification
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      Object.assign(toast.style, {
+        position: 'fixed',
+        bottom: '24px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'var(--neutral-900)',
+        color: 'white',
+        padding: '14px 28px',
+        borderRadius: '12px',
+        fontSize: '0.95rem',
+        fontFamily: 'inherit',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
+        zIndex: '3000',
+        opacity: '0',
+        transition: 'opacity 0.3s ease'
+      });
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => toast.style.opacity = '1');
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>

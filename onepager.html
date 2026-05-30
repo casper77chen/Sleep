@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一Ya好眠 · 一頁簡介</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #5D9CEC;
+  --primary-dark: #4A89DC;
+  --secondary: #62C3A3;
+  --accent: #FFD700;
+  --accent-warm: #FFC107;
+  --text: #212529;
+  --text-light: #495057;
+  --muted: #868E96;
+  --border: #E9ECEF;
+  --bg: #F8F9FA;
+}
+
+body {
+  font-family: 'Noto Sans TC', -apple-system, sans-serif;
+  background: #E5E9F0;
+  color: var(--text);
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  padding: 14mm 14mm 12mm;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== Top accent bar ===== */
+.page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+/* ===== Header ===== */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 24px;
+  box-shadow: 0 6px 18px rgba(93,156,236,0.3);
+}
+
+.brand-text h1 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.brand-text p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.meta {
+  text-align: right;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.meta strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ===== Hero Statement ===== */
+.hero {
+  background: linear-gradient(135deg, #EEF4FD, #F0FAF6);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-left: 4px solid var(--primary);
+}
+
+.hero-title {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 11px;
+  color: var(--text-light);
+  line-height: 1.55;
+}
+
+/* ===== Stats Bar ===== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 20px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ===== Section ===== */
+.section {
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-title::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+/* ===== Features ===== */
+.features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.feature {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+}
+
+.feature-icon svg { width: 18px; height: 18px; }
+
+.icon-1 { background: rgba(93,156,236,0.12); color: var(--primary); }
+.icon-2 { background: rgba(98,195,163,0.12); color: var(--secondary); }
+.icon-3 { background: rgba(255,193,7,0.15); color: #D4A000; }
+.icon-4 { background: rgba(149,117,205,0.12); color: #9575CD; }
+
+.feature-name {
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.feature-desc {
+  font-size: 9px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ===== Pages Grid ===== */
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.page-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.page-card img {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-card-body {
+  padding: 6px 8px;
+}
+
+.page-card-name {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.page-card-tag {
+  font-size: 8px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* ===== Two columns ===== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+}
+
+/* ===== Tech & Design ===== */
+.info-box {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 10px;
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-label {
+  color: var(--muted);
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.info-value {
+  color: var(--text);
+  text-align: right;
+  font-weight: 500;
+}
+
+/* ===== Color palette ===== */
+.palette {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.swatch-color {
+  height: 28px;
+  border-radius: 6px;
+  margin-bottom: 3px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.swatch-name {
+  font-size: 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.swatch-hex {
+  font-size: 8px;
+  color: var(--muted);
+  font-family: 'SF Mono', Menlo, monospace;
+}
+
+/* ===== Footer ===== */
+.footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 14mm;
+  right: 14mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.footer-tags {
+  display: flex;
+  gap: 4px;
+}
+
+.footer-tag {
+  padding: 2px 8px;
+  background: var(--bg);
+  border-radius: 50px;
+  font-size: 8px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* ===== Print ===== */
+@media print {
+  body { background: white; padding: 0; }
+  .page { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">Y</div>
+      <div class="brand-text">
+        <h1>一Ya好眠</h1>
+        <p>台灣睡眠健康整合平台 · Sleep Health Integration Platform</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div><strong>產品簡介</strong> · v1.0</div>
+      <div>2026 年 4 月</div>
+      <div>good-sleep.tw</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-title">告別輾轉反側，從這裡開始 <span>一夜好眠</span></div>
+    <div class="hero-desc">台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。透過 AI 評估、個人記錄、專業課程與專家諮詢，幫助使用者改善睡眠品質。連結使用者、專業人士與醫療體系，提升全民睡眠健康。</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">540萬+</div>
+      <div class="stat-label">台灣睡眠困擾人口</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">合作專業人士</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">精選線上課程</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">95%</div>
+      <div class="stat-label">使用者滿意度</div>
+    </div>
+  </div>
+
+  <!-- Core Features -->
+  <div class="section">
+    <div class="section-title">核心功能</div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon icon-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="feature-name">AI 睡眠評估</div>
+        <div class="feature-desc">PSQI、Epworth 量表 + AI 推薦引擎</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="feature-name">個人睡眠記錄</div>
+        <div class="feature-desc">AIoT 裝置整合 · 視覺化趨勢追蹤</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="feature-name">專業課程進修</div>
+        <div class="feature-desc">大眾科普 · 專業認證 · 講師管理</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon icon-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="feature-name">尋找睡眠專家</div>
+        <div class="feature-desc">牙醫 · 精神科 · 心理師 · 教練</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pages Grid -->
+  <div class="section">
+    <div class="section-title">產品頁面（7 大頁面）</div>
+    <div class="pages-grid">
+      <div class="page-card">
+        <img src="screenshots/index-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">首頁</div>
+          <div class="page-card-tag">品牌入口</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/assessment-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">睡眠評估</div>
+          <div class="page-card-tag">4 步驟 AI 評估</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/courses-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">課程廣場</div>
+          <div class="page-card-tag">線上課程市集</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/professionals-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">尋找專家</div>
+          <div class="page-card-tag">專家媒合</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/articles-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">知識庫</div>
+          <div class="page-card-tag">衛教文章</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/dashboard-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">個人儀表板</div>
+          <div class="page-card-tag">會員專區</div>
+        </div>
+      </div>
+      <div class="page-card">
+        <img src="screenshots/sleep-record-top.png" alt="">
+        <div class="page-card-body">
+          <div class="page-card-name">睡眠記錄</div>
+          <div class="page-card-tag">PHR 管理</div>
+        </div>
+      </div>
+      <div class="page-card" style="background: linear-gradient(135deg, #EEF4FD, #F0FAF6); display:flex; align-items:center; justify-content:center; min-height:100px;">
+        <div style="text-align:center; padding:8px;">
+          <div style="font-size:18px; font-weight:900; color:var(--primary); line-height:1;">+8</div>
+          <div style="font-size:8px; color:var(--muted); margin-top:3px;">未來擴展<br>功能模組</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Two Columns -->
+  <div class="two-col">
+
+    <!-- Left: Design -->
+    <div>
+      <div class="section-title">設計系統</div>
+      <div class="palette" style="margin-bottom:8px;">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#5D9CEC;"></div>
+          <div class="swatch-name">寧靜藍</div>
+          <div class="swatch-hex">#5D9CEC</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#62C3A3;"></div>
+          <div class="swatch-name">療癒綠</div>
+          <div class="swatch-hex">#62C3A3</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFD700;"></div>
+          <div class="swatch-name">溫暖黃</div>
+          <div class="swatch-hex">#FFD700</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:linear-gradient(135deg,#F8F9FA,#343A40);"></div>
+          <div class="swatch-name">中性灰</div>
+          <div class="swatch-hex">F8F9FA→343A40</div>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="info-row">
+          <span class="info-label">設計理念</span>
+          <span class="info-value">專業 · 溫暖 · 可信賴</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">字體</span>
+          <span class="info-value">Noto Sans TC（思源黑體）</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">圖示風格</span>
+          <span class="info-value">簡潔線性圖示</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Tech -->
+    <div>
+      <div class="section-title">技術資訊</div>
+      <div class="info-box">
+        <div class="info-row">
+          <span class="info-label">前端</span>
+          <span class="info-value">HTML5 + CSS3 + JS</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">圖表</span>
+          <span class="info-value">純 SVG / CSS</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">響應式</span>
+          <span class="info-value">Mobile / Tablet / Desktop</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">頁面數</span>
+          <span class="info-value">7 個 · 1 個簡報</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">未來擴展</span>
+          <span class="info-value">AI 引擎 · HIS 整合 · LINE@</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>© 2026 一Ya好眠 · All rights reserved</div>
+    <div class="footer-tags">
+      <span class="footer-tag">睡眠評估</span>
+      <span class="footer-tag">PHR</span>
+      <span class="footer-tag">e-Learning</span>
+      <span class="footer-tag">專家媒合</span>
+      <span class="footer-tag">AIoT</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

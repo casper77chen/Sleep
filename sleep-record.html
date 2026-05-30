@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>睡眠記錄 - 一Ya好眠</title>
+  <meta name="description" content="追蹤您的睡眠健康狀況，查看睡眠階段分析、心率、血氧等詳細數據。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --sidebar-width: 240px;
+      --sidebar-bg-start: #1E2A4A;
+      --sidebar-bg-end: #2C3E6B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--neutral-50);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: linear-gradient(180deg, var(--sidebar-bg-start), var(--sidebar-bg-end));
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .sidebar-logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav-item:hover {
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .sidebar-nav-item.active {
+      color: #fff;
+      background: rgba(93, 156, 236, 0.15);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-nav-item svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sidebar-user-name {
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .sidebar-user-logout {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .sidebar-user-logout:hover {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ===== Hamburger (mobile) ===== */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1100;
+      width: 40px;
+      height: 40px;
+      background: var(--sidebar-bg-start);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      border-radius: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    /* ===== Main Content ===== */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    /* ===== Page Header ===== */
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-header-left h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+    }
+
+    .page-header-left p {
+      color: var(--neutral-600);
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+
+    .page-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .month-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--white);
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--neutral-700);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .month-selector:hover { border-color: var(--primary); }
+
+    .month-selector svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--neutral-600);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.4);
+    }
+
+    /* ===== Device Banner ===== */
+    .device-banner {
+      background: linear-gradient(135deg, #E8F4FD, #E0F7EF);
+      border: 1px solid rgba(93, 156, 236, 0.2);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .device-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--neutral-700);
+      font-size: 0.88rem;
+    }
+
+    .device-banner-left svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .device-banner-link {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .device-banner-link:hover { opacity: 0.8; }
+
+    /* ===== Card ===== */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin-bottom: 16px;
+    }
+
+    /* ===== Calendar ===== */
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .calendar-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 4px;
+    }
+
+    .calendar-nav button {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--neutral-300);
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .calendar-nav button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .calendar-nav button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .calendar-day-label {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--neutral-500);
+      padding: 8px 0;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+      color: var(--neutral-700);
+      position: relative;
+    }
+
+    .calendar-day:hover {
+      background: var(--neutral-100);
+    }
+
+    .calendar-day.empty {
+      cursor: default;
+    }
+
+    .calendar-day.empty:hover {
+      background: transparent;
+    }
+
+    .calendar-day.selected {
+      background: rgba(93, 156, 236, 0.1);
+      border: 2px solid var(--primary);
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .calendar-day .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .dot-green { background: var(--secondary); }
+    .dot-yellow { background: var(--accent-warm); }
+    .dot-red { background: #E74C3C; }
+
+    /* ===== Day Detail ===== */
+    .day-detail-header {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .day-detail-header .quality-badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    .quality-good {
+      background: rgba(98, 195, 163, 0.15);
+      color: var(--secondary-dark);
+    }
+
+    .day-detail-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Sleep Stage Chart */
+    .sleep-chart-section h4 {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--neutral-700);
+      margin-bottom: 12px;
+    }
+
+    .sleep-legend {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sleep-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--neutral-600);
+    }
+
+    .sleep-legend-item .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .swatch-awake { background: #E74C3C; }
+    .swatch-light { background: #87CEEB; }
+    .swatch-deep { background: #2C3E6B; }
+    .swatch-rem { background: #9B59B6; }
+
+    .sleep-timeline {
+      position: relative;
+      background: var(--neutral-100);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .sleep-timeline-bar {
+      display: flex;
+      height: 40px;
+    }
+
+    .sleep-timeline-bar .stage {
+      height: 100%;
+      transition: opacity 0.2s;
+      position: relative;
+    }
+
+    .sleep-timeline-bar .stage:hover {
+      opacity: 0.8;
+    }
+
+    .stage-awake { background: #E74C3C; }
+    .stage-light { background: #87CEEB; }
+    .stage-deep { background: #2C3E6B; }
+    .stage-rem { background: #9B59B6; }
+
+    .sleep-timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 4px 0;
+    }
+
+    .sleep-timeline-labels span {
+      font-size: 0.7rem;
+      color: var(--neutral-500);
+    }
+
+    /* Hypnogram */
+    .hypnogram {
+      margin-top: 16px;
+    }
+
+    .hypnogram svg {
+      width: 100%;
+      height: 120px;
+    }
+
+    .hypnogram-labels {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0 0;
+    }
+
+    .hypnogram-labels span {
+      font-size: 0.7rem;
+      color: var(--neutral-500);
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .metric-box {
+      background: var(--neutral-50);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: background 0.2s;
+    }
+
+    .metric-box:hover {
+      background: var(--neutral-100);
+    }
+
+    .metric-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .metric-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .metric-icon.blue { background: rgba(93,156,236,0.12); color: var(--primary); }
+    .metric-icon.purple { background: rgba(155,89,182,0.12); color: #9B59B6; }
+    .metric-icon.red { background: rgba(231,76,60,0.12); color: #E74C3C; }
+    .metric-icon.green { background: rgba(98,195,163,0.12); color: var(--secondary); }
+    .metric-icon.teal { background: rgba(0,188,212,0.12); color: #00BCD4; }
+    .metric-icon.orange { background: rgba(255,152,0,0.12); color: #FF9800; }
+
+    .metric-info {
+      min-width: 0;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--neutral-500);
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+    }
+
+    .metric-value small {
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--neutral-500);
+    }
+
+    /* ===== Data Sharing ===== */
+    .sharing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sharing-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--neutral-50);
+      border-radius: var(--radius-sm);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sharing-item-info {
+      min-width: 0;
+    }
+
+    .sharing-item-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neutral-800);
+    }
+
+    .sharing-item-status {
+      font-size: 0.78rem;
+      color: var(--neutral-500);
+      margin-top: 2px;
+    }
+
+    /* Toggle Switch */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--neutral-400);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--white);
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .toggle input:checked + .toggle-slider {
+      background: var(--secondary);
+    }
+
+    .toggle input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    .btn-add-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px dashed var(--neutral-400);
+      border-radius: var(--radius-sm);
+      color: var(--neutral-600);
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-add-share:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(93,156,236,0.04);
+    }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--neutral-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--neutral-100);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover { background: var(--neutral-200); }
+
+    .modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--neutral-600);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--neutral-800);
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93,156,236,0.15);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Star rating */
+    .star-rating {
+      display: flex;
+      gap: 4px;
+    }
+
+    .star-rating .star {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .star-rating .star:hover { transform: scale(1.2); }
+
+    .star-rating .star svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--neutral-300);
+      stroke: none;
+      transition: fill 0.2s;
+    }
+
+    .star-rating .star.active svg {
+      fill: var(--accent);
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--neutral-200);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      padding: 9px 20px;
+      background: var(--white);
+      border: 1px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--neutral-700);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+      background: var(--neutral-100);
+    }
+
+    .btn-submit {
+      padding: 9px 24px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(93,156,236,0.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(93,156,236,0.4);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .day-detail-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.show {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 24px 16px;
+        padding-top: 72px;
+      }
+
+      .page-header {
+        flex-direction: column;
+      }
+
+      .page-header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .calendar-day {
+        font-size: 0.75rem;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hamburger Button -->
+<button class="hamburger" id="hamburger" aria-label="開啟選單">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </div>
+    <span class="sidebar-logo-text">一Ya好眠</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="sidebar-nav-item">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      儀表板
+    </a>
+    <a href="assessment.html" class="sidebar-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      睡眠評估
+    </a>
+    <a href="sleep-record.html" class="sidebar-nav-item active">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      睡眠記錄
+    </a>
+    <a href="professionals.html" class="sidebar-nav-item">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      健康諮詢
+    </a>
+    <a href="#" class="sidebar-nav-item">
+      <svg viewBox="0 0 24 24"><rect x="1" y="6" width="22" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="18" y1="10" x2="18" y2="14"/><line x1="12" y1="10" x2="12" y2="14"/></svg>
+      裝置管理
+    </a>
+    <a href="#" class="sidebar-nav-item">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      個人設定
+    </a>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="sidebar-avatar">陳</div>
+    <div class="sidebar-user-info">
+      <div class="sidebar-user-name">陳先生</div>
+      <div class="sidebar-user-logout" onclick="localStorage.removeItem('yya_logged_in'); window.location.href='index.html';">登出</div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<div class="main-content">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>我的睡眠記錄</h1>
+      <p>追蹤您的睡眠健康狀況</p>
+    </div>
+    <div class="page-header-actions">
+      <div class="month-selector">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        本月
+      </div>
+      <button class="btn btn-primary" id="btnAddRecord">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        手動新增記錄
+      </button>
+    </div>
+  </div>
+
+  <!-- Device Banner -->
+  <div class="device-banner">
+    <div class="device-banner-left">
+      <svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><circle cx="12" cy="18" r="1.5" fill="currentColor" stroke="none"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+      <span>已連接裝置：<strong>Garmin Venu 3 智慧手錶</strong> &bull; 最後同步：今天 08:30</span>
+    </div>
+    <a href="#" class="device-banner-link">管理裝置</a>
+  </div>
+
+  <!-- Calendar -->
+  <div class="card" id="calendarCard">
+    <div class="calendar-header">
+      <h3>2026年 2月</h3>
+      <div class="calendar-nav">
+        <button aria-label="上個月"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button aria-label="下個月"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+    <div class="calendar-grid" id="calendarGrid">
+      <!-- Day labels -->
+      <div class="calendar-day-label">日</div>
+      <div class="calendar-day-label">一</div>
+      <div class="calendar-day-label">二</div>
+      <div class="calendar-day-label">三</div>
+      <div class="calendar-day-label">四</div>
+      <div class="calendar-day-label">五</div>
+      <div class="calendar-day-label">六</div>
+      <!-- Calendar days will be generated by JS -->
+    </div>
+  </div>
+
+  <!-- Selected Day Detail -->
+  <div class="card" id="dayDetailCard">
+    <div class="day-detail-header">
+      <span id="dayDetailTitle">2月 18 日 (三)</span>
+      <span class="quality-badge quality-good">良好</span>
+    </div>
+    <div class="day-detail-content">
+      <!-- Sleep Stage Chart -->
+      <div class="sleep-chart-section">
+        <h4>睡眠階段分析</h4>
+        <div class="sleep-legend">
+          <div class="sleep-legend-item"><span class="swatch swatch-awake"></span>清醒</div>
+          <div class="sleep-legend-item"><span class="swatch swatch-light"></span>淺層睡眠</div>
+          <div class="sleep-legend-item"><span class="swatch swatch-deep"></span>深層睡眠</div>
+          <div class="sleep-legend-item"><span class="swatch swatch-rem"></span>快速眼動期</div>
+        </div>
+        <!-- Stacked bar -->
+        <div class="sleep-timeline">
+          <div class="sleep-timeline-bar" id="sleepTimelineBar">
+            <div class="stage stage-awake" style="width:3%"></div>
+            <div class="stage stage-light" style="width:12%"></div>
+            <div class="stage stage-deep" style="width:18%"></div>
+            <div class="stage stage-light" style="width:8%"></div>
+            <div class="stage stage-rem" style="width:10%"></div>
+            <div class="stage stage-light" style="width:10%"></div>
+            <div class="stage stage-deep" style="width:5%"></div>
+            <div class="stage stage-light" style="width:7%"></div>
+            <div class="stage stage-rem" style="width:8%"></div>
+            <div class="stage stage-light" style="width:9%"></div>
+            <div class="stage stage-awake" style="width:2%"></div>
+            <div class="stage stage-rem" style="width:5%"></div>
+            <div class="stage stage-light" style="width:3%"></div>
+          </div>
+          <div class="sleep-timeline-labels">
+            <span>22:00</span>
+            <span>00:00</span>
+            <span>02:00</span>
+            <span>04:00</span>
+            <span>06:00</span>
+            <span>08:00</span>
+          </div>
+        </div>
+        <!-- Hypnogram SVG -->
+        <div class="hypnogram">
+          <svg viewBox="0 0 600 120" preserveAspectRatio="none">
+            <!-- Y axis labels background -->
+            <text x="0" y="18" font-size="9" fill="#868E96" font-family="Noto Sans TC, sans-serif">清醒</text>
+            <text x="0" y="48" font-size="9" fill="#868E96" font-family="Noto Sans TC, sans-serif">REM</text>
+            <text x="0" y="78" font-size="9" fill="#868E96" font-family="Noto Sans TC, sans-serif">淺眠</text>
+            <text x="0" y="108" font-size="9" fill="#868E96" font-family="Noto Sans TC, sans-serif">深眠</text>
+            <!-- Grid lines -->
+            <line x1="45" y1="15" x2="600" y2="15" stroke="#E9ECEF" stroke-width="0.5"/>
+            <line x1="45" y1="45" x2="600" y2="45" stroke="#E9ECEF" stroke-width="0.5"/>
+            <line x1="45" y1="75" x2="600" y2="75" stroke="#E9ECEF" stroke-width="0.5"/>
+            <line x1="45" y1="105" x2="600" y2="105" stroke="#E9ECEF" stroke-width="0.5"/>
+            <!-- Hypnogram line: Awake=15, REM=45, Light=75, Deep=105 -->
+            <polyline fill="none" stroke="#5D9CEC" stroke-width="2"
+              points="
+                45,15 65,15
+                65,75 110,75
+                110,105 180,105
+                180,75 215,75
+                215,45 270,45
+                270,75 320,75
+                320,105 350,105
+                350,75 390,75
+                390,45 435,45
+                435,75 480,75
+                480,15 495,15
+                495,45 530,45
+                530,75 570,75
+                570,75 600,75
+              "/>
+          </svg>
+          <div class="hypnogram-labels">
+            <span>22:00</span>
+            <span>00:00</span>
+            <span>02:00</span>
+            <span>04:00</span>
+            <span>06:00</span>
+            <span>08:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div>
+        <h4 style="font-size:0.88rem;font-weight:600;color:var(--neutral-700);margin-bottom:12px;">關鍵指標</h4>
+        <div class="metrics-grid" id="metricsGrid">
+          <!-- Sleep Duration -->
+          <div class="metric-box">
+            <div class="metric-icon blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">睡眠時長</div>
+              <div class="metric-value">7h 15m</div>
+            </div>
+          </div>
+          <!-- Deep Sleep -->
+          <div class="metric-box">
+            <div class="metric-icon purple">
+              <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">深層睡眠</div>
+              <div class="metric-value">1h 30m</div>
+            </div>
+          </div>
+          <!-- REM -->
+          <div class="metric-box">
+            <div class="metric-icon green">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a2.5 2.5 0 1 1-2.5 2.5A2.5 2.5 0 0 1 12 6zm0 12a7 7 0 0 1-5.94-3.3c.03-2 3.96-3.1 5.94-3.1s5.91 1.1 5.94 3.1A7 7 0 0 1 12 18z"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">快速眼動期</div>
+              <div class="metric-value">1h 45m</div>
+            </div>
+          </div>
+          <!-- Heart Rate -->
+          <div class="metric-box">
+            <div class="metric-icon red">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">心率平均</div>
+              <div class="metric-value">58 <small>bpm</small></div>
+            </div>
+          </div>
+          <!-- SpO2 -->
+          <div class="metric-box">
+            <div class="metric-icon teal">
+              <svg viewBox="0 0 24 24"><path d="M12 22c-4.97 0-9-3.58-9-8 0-4.42 9-14 9-14s9 9.58 9 14c0 4.42-4.03 8-9 8z"/><path d="M8 14c0 2.21 1.79 4 4 4" stroke-width="1.5" fill="none"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">血氧濃度</div>
+              <div class="metric-value">97<small>%</small></div>
+            </div>
+          </div>
+          <!-- Snoring -->
+          <div class="metric-box">
+            <div class="metric-icon orange">
+              <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            </div>
+            <div class="metric-info">
+              <div class="metric-label">打鼾次數</div>
+              <div class="metric-value">2<small>次</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Sharing Settings -->
+  <div class="card">
+    <div class="card-title">數據分享設定</div>
+    <div class="sharing-list">
+      <div class="sharing-item">
+        <div class="sharing-item-info">
+          <div class="sharing-item-name">張心理師</div>
+          <div class="sharing-item-status">分享中 &bull; 到期：2026/03/15</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="sharing-item">
+        <div class="sharing-item-info">
+          <div class="sharing-item-name">李醫師（台大醫院睡眠科）</div>
+          <div class="sharing-item-status">分享中 &bull; 到期：2026/04/01</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    <button class="btn-add-share">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      新增分享對象
+    </button>
+  </div>
+
+</div>
+
+<!-- Modal: Add Record -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>手動新增睡眠記錄</h3>
+      <button class="modal-close" id="modalClose">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="recordDate">日期</label>
+        <input type="date" class="form-control" id="recordDate" value="2026-02-18">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="bedtime">就寢時間</label>
+          <input type="time" class="form-control" id="bedtime" value="22:30">
+        </div>
+        <div class="form-group">
+          <label for="wakeTime">起床時間</label>
+          <input type="time" class="form-control" id="wakeTime" value="06:45">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>睡眠品質</label>
+        <div class="star-rating" id="starRating">
+          <span class="star active" data-value="1"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <span class="star active" data-value="2"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <span class="star active" data-value="3"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <span class="star active" data-value="4"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          <span class="star" data-value="5"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="recordNote">備註</label>
+        <textarea class="form-control" id="recordNote" placeholder="記錄您的睡眠感受..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modalCancelBtn">取消</button>
+      <button class="btn-submit" id="modalSubmitBtn">儲存記錄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // ===== Sidebar Mobile Toggle =====
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  });
+
+  overlay.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  });
+
+  // ===== Calendar Generation =====
+  // Feb 2026 starts on Sunday (day 0), 28 days
+  const calendarGrid = document.getElementById('calendarGrid');
+  const firstDayOfWeek = 0; // Sunday
+  const totalDays = 28;
+
+  // Quality map
+  const greenDays = [1,4,7,8,11,14,18,21,22,25,28];
+  const yellowDays = [2,5,9,12,16,19,23,26];
+  const redDays = [3,6,10,13,15,17,20,24,27];
+
+  function getDotClass(day) {
+    if (greenDays.includes(day)) return 'dot-green';
+    if (yellowDays.includes(day)) return 'dot-yellow';
+    if (redDays.includes(day)) return 'dot-red';
+    return '';
+  }
+
+  const dayNames = ['日','一','二','三','四','五','六'];
+  function getDayOfWeek(day) {
+    // Feb 1, 2026 = Sunday (0)
+    return (firstDayOfWeek + day - 1) % 7;
+  }
+
+  let selectedDay = 18;
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'calendar-day empty';
+    calendarGrid.appendChild(empty);
+  }
+
+  for (let d = 1; d <= totalDays; d++) {
+    const cell = document.createElement('div');
+    cell.className = 'calendar-day' + (d === selectedDay ? ' selected' : '');
+    cell.dataset.day = d;
+
+    const num = document.createElement('span');
+    num.textContent = d;
+    cell.appendChild(num);
+
+    const dotClass = getDotClass(d);
+    if (dotClass) {
+      const dot = document.createElement('span');
+      dot.className = 'dot ' + dotClass;
+      cell.appendChild(dot);
+    }
+
+    cell.addEventListener('click', () => selectDay(d));
+    calendarGrid.appendChild(cell);
+  }
+
+  function selectDay(day) {
+    selectedDay = day;
+    document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
+    const target = document.querySelector(`.calendar-day[data-day="${day}"]`);
+    if (target) target.classList.add('selected');
+    updateDayDetail(day);
+  }
+
+  // Mock data for different days
+  const mockData = {
+    default: { duration: '7h 15m', deep: '1h 30m', rem: '1h 45m', hr: 58, spo2: 97, snore: 2 },
+    poor: { duration: '4h 50m', deep: '0h 40m', rem: '0h 55m', hr: 72, spo2: 94, snore: 8 },
+    moderate: { duration: '6h 05m', deep: '1h 05m', rem: '1h 20m', hr: 64, spo2: 96, snore: 4 }
+  };
+
+  function updateDayDetail(day) {
+    const dow = getDayOfWeek(day);
+    const dowName = dayNames[dow];
+    const titleEl = document.getElementById('dayDetailTitle');
+    titleEl.textContent = `2月 ${day} 日 (${dowName})`;
+
+    const badge = titleEl.nextElementSibling;
+    let data, qualityText, qualityClass;
+    if (greenDays.includes(day)) {
+      data = mockData.default;
+      qualityText = '良好';
+      qualityClass = 'quality-good';
+    } else if (yellowDays.includes(day)) {
+      data = mockData.moderate;
+      qualityText = '一般';
+      qualityClass = '';
+      badge.style.background = 'rgba(255,193,7,0.15)';
+      badge.style.color = '#E6A700';
+    } else {
+      data = mockData.poor;
+      qualityText = '不佳';
+      qualityClass = '';
+      badge.style.background = 'rgba(231,76,60,0.15)';
+      badge.style.color = '#E74C3C';
+    }
+
+    if (qualityClass) {
+      badge.className = 'quality-badge ' + qualityClass;
+      badge.style.background = '';
+      badge.style.color = '';
+    } else {
+      badge.className = 'quality-badge';
+    }
+    badge.textContent = qualityText;
+
+    // Update metrics
+    const boxes = document.querySelectorAll('#metricsGrid .metric-value');
+    if (boxes.length >= 6) {
+      boxes[0].innerHTML = data.duration;
+      boxes[1].innerHTML = data.deep;
+      boxes[2].innerHTML = data.rem;
+      boxes[3].innerHTML = data.hr + ' <small>bpm</small>';
+      boxes[4].innerHTML = data.spo2 + '<small>%</small>';
+      boxes[5].innerHTML = data.snore + '<small>次</small>';
+    }
+  }
+
+  // ===== Modal =====
+  const modalOverlay = document.getElementById('modalOverlay');
+  const btnAddRecord = document.getElementById('btnAddRecord');
+  const modalClose = document.getElementById('modalClose');
+  const modalCancelBtn = document.getElementById('modalCancelBtn');
+  const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+
+  function openModal() { modalOverlay.classList.add('show'); }
+  function closeModal() { modalOverlay.classList.remove('show'); }
+
+  btnAddRecord.addEventListener('click', openModal);
+  modalClose.addEventListener('click', closeModal);
+  modalCancelBtn.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  modalSubmitBtn.addEventListener('click', () => {
+    const date = document.getElementById('recordDate').value;
+    const bed = document.getElementById('bedtime').value;
+    const wake = document.getElementById('wakeTime').value;
+    if (!date || !bed || !wake) {
+      alert('請填寫完整資料');
+      return;
+    }
+    alert('記錄已儲存！');
+    closeModal();
+  });
+
+  // ===== Star Rating =====
+  const starRating = document.getElementById('starRating');
+  let currentRating = 4;
+
+  starRating.addEventListener('click', (e) => {
+    const star = e.target.closest('.star');
+    if (!star) return;
+    currentRating = parseInt(star.dataset.value);
+    starRating.querySelectorAll('.star').forEach((s) => {
+      s.classList.toggle('active', parseInt(s.dataset.value) <= currentRating);
+    });
+  });
+
+  // ===== Toggle Switches =====
+  document.querySelectorAll('.toggle input').forEach((toggle) => {
+    toggle.addEventListener('change', function() {
+      const statusEl = this.closest('.sharing-item').querySelector('.sharing-item-status');
+      if (this.checked) {
+        statusEl.textContent = statusEl.textContent.replace('已暫停', '分享中');
+      } else {
+        statusEl.textContent = statusEl.textContent.replace('分享中', '已暫停');
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

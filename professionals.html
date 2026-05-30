@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尋找專家 - 一Ya好眠</title>
+  <meta name="description" content="連結睡眠專科醫師、心理師、睡眠教練等各類專業人士，為您的睡眠問題找到最合適的解決方案。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neutral-800);
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-dashboard {
+      color: #CED4DA;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .btn-dashboard.active {
+      color: #5D9CEC;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .btn-dashboard.active:hover {
+      background: rgba(93, 156, 236, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neutral-700);
+    }
+
+    .btn-ghost:hover {
+      background: var(--neutral-100);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.45);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-large {
+      padding: 14px 36px;
+      font-size: 1.05rem;
+      border-radius: var(--radius-md);
+    }
+
+    /* Mobile menu toggle */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--neutral-700);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      padding: 140px 0 60px;
+      background: linear-gradient(170deg, #EEF4FD 0%, #F0FAF6 40%, #FEFCF0 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93, 156, 236, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(98, 195, 163, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--neutral-900);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--neutral-600);
+      line-height: 1.8;
+    }
+
+    /* ===== Filter Bar ===== */
+    .filter-section {
+      padding: 32px 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--neutral-200);
+      position: sticky;
+      top: 72px;
+      z-index: 100;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar select,
+    .filter-bar input {
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border: 1.5px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--neutral-800);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .filter-bar select {
+      min-width: 180px;
+      padding-right: 40px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+    }
+
+    .filter-bar input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-bar select:focus,
+    .filter-bar input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93, 156, 236, 0.15);
+    }
+
+    .filter-bar input::placeholder {
+      color: var(--neutral-500);
+    }
+
+    /* ===== Expert Grid ===== */
+    .experts-section {
+      padding: 48px 0 80px;
+      background: var(--neutral-50);
+    }
+
+    .experts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .expert-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .expert-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .expert-card-header {
+      padding: 28px 24px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .expert-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 15%;
+      flex-shrink: 0;
+      border: 3px solid var(--neutral-100);
+    }
+
+    .expert-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .avatar-blue { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+    .avatar-green { background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); }
+    .avatar-purple { background: linear-gradient(135deg, #9B59B6, #8E44AD); }
+
+    .expert-header-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .expert-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 6px;
+    }
+
+    .expert-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .badge-sleep { background: rgba(93, 156, 236, 0.12); color: var(--primary-dark); }
+    .badge-psychologist { background: rgba(155, 89, 182, 0.12); color: #8E44AD; }
+    .badge-coach { background: rgba(98, 195, 163, 0.12); color: var(--secondary-dark); }
+    .badge-physio { background: rgba(255, 193, 7, 0.15); color: #D4A000; }
+    .badge-ent { background: rgba(231, 76, 60, 0.1); color: #C0392B; }
+    .badge-psychiatrist { background: rgba(52, 152, 219, 0.12); color: #2980B9; }
+    .badge-dentist { background: rgba(46, 204, 113, 0.12); color: #27AE60; }
+
+    .expert-location {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      margin-top: 6px;
+    }
+
+    .expert-location svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .expert-card-body {
+      padding: 20px 24px;
+      flex: 1;
+    }
+
+    .expert-desc {
+      font-size: 0.92rem;
+      color: var(--neutral-700);
+      line-height: 1.7;
+    }
+
+    .expert-card-footer {
+      padding: 0 24px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .expert-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .expert-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neutral-800);
+    }
+
+    .expert-rating svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .expert-consults {
+      font-size: 0.8rem;
+      color: var(--neutral-500);
+    }
+
+    .btn-book {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-book:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    /* No results */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 80px 24px;
+      grid-column: 1 / -1;
+    }
+
+    .no-results svg {
+      width: 64px;
+      height: 64px;
+      color: var(--neutral-400);
+      margin-bottom: 16px;
+    }
+
+    .no-results h3 {
+      font-size: 1.2rem;
+      color: var(--neutral-700);
+      margin-bottom: 8px;
+    }
+
+    .no-results p {
+      color: var(--neutral-500);
+      font-size: 0.95rem;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--neutral-500);
+    }
+
+    .footer h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--primary-light);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: var(--neutral-400);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--primary-light);
+    }
+
+    /* ===== Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .fade-in-delay-5 { transition-delay: 0.5s; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .experts-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions { display: none; }
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid var(--neutral-200);
+        box-shadow: var(--shadow-md);
+      }
+      .nav-actions.active {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: calc(72px + var(--links-height, 220px));
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 0 24px 24px;
+        border-bottom: 1px solid var(--neutral-200);
+      }
+      .nav-toggle { display: flex; }
+
+      .hero { padding: 120px 0 48px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 1rem; }
+
+      .filter-bar { flex-direction: column; }
+      .filter-bar select,
+      .filter-bar input { width: 100%; min-width: unset; }
+
+      .experts-grid { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .expert-card-header { flex-direction: column; text-align: center; }
+      .expert-card-footer { flex-direction: column; }
+      .btn-book { width: 100%; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">Y</div>
+        一Ya好眠
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="assessment.html">睡眠評估</a></li>
+        <li><a href="courses.html">課程廣場</a></li>
+        <li><a href="professionals.html" class="active">尋找專家</a></li>
+        <li><a href="articles.html">知識庫</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions">
+        <a href="dashboard.html" class="btn btn-ghost btn-dashboard" id="btnDashboard">睡眠儀表板</a>
+        <button class="btn btn-ghost">登入</button>
+        <button class="btn btn-primary">免費加入</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content fade-in">
+        <h1>尋找睡眠專家</h1>
+        <p>連結心理師、睡眠教練、物理治療師等各類專業人士，為您的睡眠問題找到最合適的解決方案</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="filter-section">
+    <div class="container">
+      <div class="filter-bar">
+        <select id="filterSpecialty">
+          <option value="全部">全部專長</option>
+          <option value="牙醫師">牙醫師</option>
+          <option value="精神科專科醫師">精神科專科醫師</option>
+          <option value="心理師">心理師</option>
+          <option value="睡眠教練">睡眠教練</option>
+          <option value="物理治療師">物理治療師</option>
+        </select>
+        <select id="filterRegion">
+          <option value="全部">全部地區</option>
+          <option value="台北">台北</option>
+          <option value="新北">新北</option>
+          <option value="桃園">桃園</option>
+          <option value="台中">台中</option>
+          <option value="台南">台南</option>
+          <option value="高雄">高雄</option>
+        </select>
+        <input type="text" id="filterSearch" placeholder="搜尋專家姓名或關鍵字...">
+      </div>
+    </div>
+  </section>
+
+  <!-- Experts Grid -->
+  <section class="experts-section">
+    <div class="container">
+      <div class="experts-grid" id="expertsGrid">
+
+        <!-- Expert 1: 陳欽章醫師 -->
+        <div class="expert-card fade-in" data-specialty="牙醫師" data-region="台北" data-name="陳欽章醫師" data-desc="專精睡眠牙醫學與口腔矯正裝置治療，超過20年臨床經驗">
+          <div class="expert-card-header">
+            <img src="photo/陳欽章醫師.JPG" alt="陳欽章醫師" class="expert-photo">
+            <div class="expert-header-info">
+              <div class="expert-name">陳欽章醫師</div>
+              <span class="expert-badge badge-dentist">牙醫師</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                台北
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">專精睡眠牙醫學與口腔矯正裝置治療，超過20年臨床經驗</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.9
+              </div>
+              <span class="expert-consults">1,280 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- Expert 2: 臧鴻儒醫師 -->
+        <div class="expert-card fade-in fade-in-delay-1" data-specialty="精神科專科醫師" data-region="台北" data-name="臧鴻儒醫師" data-desc="專長慢性失眠、自律神經失調、壓力及情緒調適、創傷後壓力症候群、藥物治療、心理治療、生物治療、營養治療">
+          <div class="expert-card-header">
+            <img src="photo/臧鴻儒醫師.webp" alt="臧鴻儒醫師" class="expert-photo">
+            <div class="expert-header-info">
+              <div class="expert-name">臧鴻儒醫師</div>
+              <span class="expert-badge badge-psychiatrist">精神科專科醫師</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                台北
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">專長慢性失眠、自律神經失調、環境適應障礙、壓力及情緒調適、恐慌症、憂鬱症、強迫症、創傷後壓力症候群、藥物治療、心理治療、生物治療、營養治療、整合及輔助治療</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.8
+              </div>
+              <span class="expert-consults">960 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- Expert 3: 鄭哲偉醫師 -->
+        <div class="expert-card fade-in fade-in-delay-2" data-specialty="牙醫師" data-region="台中" data-name="鄭哲偉醫師" data-desc="專精睡眠呼吸中止症之口腔裝置治療與顱顏矯正">
+          <div class="expert-card-header">
+            <img src="photo/鄭哲偉醫師.webp" alt="鄭哲偉醫師" class="expert-photo">
+            <div class="expert-header-info">
+              <div class="expert-name">鄭哲偉醫師</div>
+              <span class="expert-badge badge-dentist">牙醫師</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                台中
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">專精睡眠呼吸中止症之口腔裝置治療與顱顏矯正</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.9
+              </div>
+              <span class="expert-consults">1,150 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- Expert 4: 李心怡心理師 -->
+        <div class="expert-card fade-in fade-in-delay-3" data-specialty="心理師" data-region="台北" data-name="李心怡心理師" data-desc="認知行為治療(CBT-I)專家，協助患者建立健康睡眠模式">
+          <div class="expert-card-header">
+            <div class="expert-avatar avatar-purple">李</div>
+            <div class="expert-header-info">
+              <div class="expert-name">李心怡心理師</div>
+              <span class="expert-badge badge-psychologist">心理師</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                台北
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">認知行為治療(CBT-I)專家，協助患者建立健康睡眠模式</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.7
+              </div>
+              <span class="expert-consults">820 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- Expert 5: 張宏睿教練 -->
+        <div class="expert-card fade-in fade-in-delay-4" data-specialty="睡眠教練" data-region="新北" data-name="張宏睿教練" data-desc="提供個人化睡眠改善方案與生活型態調整建議">
+          <div class="expert-card-header">
+            <div class="expert-avatar avatar-green">張</div>
+            <div class="expert-header-info">
+              <div class="expert-name">張宏睿教練</div>
+              <span class="expert-badge badge-coach">睡眠教練</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                新北
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">提供個人化睡眠改善方案與生活型態調整建議</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.6
+              </div>
+              <span class="expert-consults">540 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- Expert 6: 王雅琳治療師 -->
+        <div class="expert-card fade-in fade-in-delay-5" data-specialty="物理治療師" data-region="高雄" data-name="王雅琳治療師" data-desc="運用徒手治療與運動處方改善睡眠品質">
+          <div class="expert-card-header">
+            <div class="expert-avatar avatar-blue">王</div>
+            <div class="expert-header-info">
+              <div class="expert-name">王雅琳治療師</div>
+              <span class="expert-badge badge-physio">物理治療師</span>
+              <div class="expert-location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                高雄
+              </div>
+            </div>
+          </div>
+          <div class="expert-card-body">
+            <p class="expert-desc">運用徒手治療與運動處方改善睡眠品質</p>
+          </div>
+          <div class="expert-card-footer">
+            <div class="expert-stats">
+              <div class="expert-rating">
+                <svg viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                4.8
+              </div>
+              <span class="expert-consults">680 次諮詢</span>
+            </div>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" class="btn-book">預約諮詢</a>
+          </div>
+        </div>
+
+        <!-- No results message -->
+        <div class="no-results" id="noResults">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <h3>找不到符合條件的專家</h3>
+          <p>請嘗試調整篩選條件或搜尋關鍵字</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">Y</div>
+            一Ya好眠
+          </div>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。</p>
+        </div>
+        <div>
+          <h4>快速連結</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="assessment.html">睡眠評估</a></li>
+            <li><a href="courses.html">課程廣場</a></li>
+            <li><a href="professionals.html">尋找專家</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>資源</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">知識庫</a></li>
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">隱私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>聯絡方式</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@yagoodsleep.com
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" aria-label="Line">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 一Ya好眠. 版權所有。</p>
+        <div class="footer-legal">
+          <a href="#">服務條款</a>
+          <a href="#">隱私政策</a>
+          <a href="#">Cookie設定</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check login state
+    if (localStorage.getItem('yya_logged_in')) {
+      document.getElementById('btnDashboard').classList.add('active');
+    }
+
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navActions = document.getElementById('navActions');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      navActions.classList.toggle('active');
+    });
+
+    // Scroll animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Filter functionality
+    const filterSpecialty = document.getElementById('filterSpecialty');
+    const filterRegion = document.getElementById('filterRegion');
+    const filterSearch = document.getElementById('filterSearch');
+    const expertsGrid = document.getElementById('expertsGrid');
+    const noResults = document.getElementById('noResults');
+
+    function filterExperts() {
+      const specialty = filterSpecialty.value;
+      const region = filterRegion.value;
+      const search = filterSearch.value.trim().toLowerCase();
+
+      const cards = expertsGrid.querySelectorAll('.expert-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardSpecialty = card.dataset.specialty;
+        const cardRegion = card.dataset.region;
+        const cardName = card.dataset.name.toLowerCase();
+        const cardDesc = card.dataset.desc.toLowerCase();
+
+        const matchSpecialty = specialty === '全部' || cardSpecialty === specialty;
+        const matchRegion = region === '全部' || cardRegion === region;
+        const matchSearch = !search || cardName.includes(search) || cardDesc.includes(search);
+
+        if (matchSpecialty && matchRegion && matchSearch) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    filterSpecialty.addEventListener('change', filterExperts);
+    filterRegion.addEventListener('change', filterExperts);
+    filterSearch.addEventListener('input', filterExperts);
+  </script>
+
+</body>
+</html>

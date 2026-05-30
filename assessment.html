@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>睡眠健康評估 - 一Ya好眠</title>
+  <meta name="description" content="透過匹茲堡睡眠品質指數(PSQI)與Epworth嗜睡量表，AI智慧分析您的睡眠狀況，提供個人化改善建議。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #5D9CEC;
+      --primary-dark: #4A89DC;
+      --primary-light: #A8D0F5;
+      --secondary: #62C3A3;
+      --secondary-dark: #4EB08F;
+      --secondary-light: #A8E6CF;
+      --accent: #FFD700;
+      --accent-warm: #FFC107;
+      --neutral-50: #F8F9FA;
+      --neutral-100: #F1F3F5;
+      --neutral-200: #E9ECEF;
+      --neutral-300: #DEE2E6;
+      --neutral-400: #CED4DA;
+      --neutral-500: #ADB5BD;
+      --neutral-600: #868E96;
+      --neutral-700: #495057;
+      --neutral-800: #343A40;
+      --neutral-900: #212529;
+      --white: #FFFFFF;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--neutral-800);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled { box-shadow: var(--shadow-md); }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--neutral-800);
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-700);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-dashboard {
+      color: #CED4DA;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .btn-dashboard.active {
+      color: #5D9CEC;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .btn-dashboard.active:hover {
+      background: rgba(93, 156, 236, 0.08);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--neutral-700);
+    }
+
+    .btn-ghost:hover {
+      background: var(--neutral-100);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(93, 156, 236, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(93, 156, 236, 0.45);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary-outline {
+      background: white;
+      color: var(--neutral-700);
+      border: 2px solid var(--neutral-300);
+    }
+
+    .btn-secondary-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+      color: white;
+      box-shadow: 0 4px 15px rgba(98, 195, 163, 0.35);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(98, 195, 163, 0.45);
+    }
+
+    .btn-large {
+      padding: 14px 32px;
+      font-size: 1.05rem;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--neutral-700);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 140px 0 60px;
+      background: linear-gradient(135deg, #EBF4FF 0%, #E8F8F0 50%, #FFF9E6 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(93,156,236,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -15%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(98,195,163,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: var(--neutral-900);
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--neutral-600);
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-icon svg {
+      width: 36px;
+      height: 36px;
+      color: white;
+    }
+
+    /* ===== Disclaimer ===== */
+    .disclaimer-section {
+      padding: 40px 0 0;
+    }
+
+    .disclaimer-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #FFFCEB;
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      position: relative;
+    }
+
+    .disclaimer-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .disclaimer-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: #856404;
+      font-size: 1.05rem;
+    }
+
+    .disclaimer-header svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-warm);
+      flex-shrink: 0;
+    }
+
+    .disclaimer-text {
+      color: #664d03;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .disclaimer-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #664d03;
+      font-weight: 500;
+    }
+
+    .disclaimer-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--secondary);
+      cursor: pointer;
+    }
+
+    /* ===== Assessment Container ===== */
+    .assessment-section {
+      padding: 40px 0 80px;
+    }
+
+    .assessment-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .assessment-locked {
+      opacity: 0.4;
+      pointer-events: none;
+      filter: blur(1px);
+      transition: all 0.5s ease;
+    }
+
+    .assessment-locked.unlocked {
+      opacity: 1;
+      pointer-events: auto;
+      filter: none;
+    }
+
+    /* ===== Progress Bar ===== */
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .progress-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--neutral-200);
+      color: var(--neutral-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.4s ease;
+      border: 3px solid transparent;
+    }
+
+    .progress-step.active .progress-circle {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 4px rgba(93,156,236,0.2);
+    }
+
+    .progress-step.completed .progress-circle {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary-light);
+    }
+
+    .progress-label {
+      font-size: 0.75rem;
+      color: var(--neutral-500);
+      margin-top: 8px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    .progress-step.active .progress-label {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .progress-step.completed .progress-label {
+      color: var(--secondary);
+    }
+
+    .progress-line {
+      flex: 1;
+      height: 3px;
+      background: var(--neutral-200);
+      margin: 0 -4px;
+      margin-bottom: 24px;
+      transition: background 0.4s ease;
+      min-width: 40px;
+    }
+
+    .progress-line.completed {
+      background: var(--secondary);
+    }
+
+    /* ===== Form Steps ===== */
+    .step-panel {
+      display: none;
+      animation: fadeSlideIn 0.4s ease;
+    }
+
+    .step-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--neutral-200);
+    }
+
+    .step-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+    }
+
+    .step-subtitle {
+      font-size: 0.95rem;
+      color: var(--neutral-600);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* ===== Form Elements ===== */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--neutral-800);
+      margin-bottom: 8px;
+    }
+
+    .form-label .required {
+      color: #E74C3C;
+      margin-left: 2px;
+    }
+
+    .form-select,
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--neutral-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--neutral-800);
+      background: white;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      outline: none;
+    }
+
+    .form-select:focus,
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(93,156,236,0.15);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--neutral-700);
+    }
+
+    .radio-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* ===== Scale Questions ===== */
+    .scale-question {
+      background: var(--neutral-50);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--neutral-200);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .scale-question:hover {
+      border-color: var(--neutral-300);
+    }
+
+    .scale-question.answered {
+      border-color: var(--secondary-light);
+      background: linear-gradient(135deg, rgba(98,195,163,0.03), rgba(93,156,236,0.03));
+    }
+
+    .scale-question-text {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--neutral-800);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .scale-question-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .scale-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .scale-option {
+      position: relative;
+    }
+
+    .scale-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .scale-option label {
+      display: block;
+      padding: 10px 8px;
+      text-align: center;
+      border: 2px solid var(--neutral-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: var(--neutral-600);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+
+    .scale-option label:hover {
+      border-color: var(--primary-light);
+      background: rgba(93,156,236,0.05);
+    }
+
+    .scale-option input:checked + label {
+      border-color: var(--primary);
+      background: rgba(93,156,236,0.1);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    /* ===== Checkboxes for symptoms ===== */
+    .symptom-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .symptom-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border: 2px solid var(--neutral-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      color: var(--neutral-700);
+    }
+
+    .symptom-check:hover {
+      border-color: var(--primary-light);
+      background: rgba(93,156,236,0.03);
+    }
+
+    .symptom-check.checked {
+      border-color: var(--primary);
+      background: rgba(93,156,236,0.08);
+      color: var(--primary-dark);
+    }
+
+    .symptom-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ===== Step Navigation ===== */
+    .step-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      gap: 16px;
+    }
+
+    .step-nav .btn {
+      min-width: 140px;
+    }
+
+    /* ===== Results ===== */
+    .results-panel {
+      display: none;
+      animation: fadeSlideIn 0.6s ease;
+    }
+
+    .results-panel.active {
+      display: block;
+    }
+
+    .results-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .results-header h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+    }
+
+    .results-header p {
+      color: var(--neutral-600);
+      font-size: 1rem;
+    }
+
+    .score-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .score-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--neutral-200);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .score-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .score-card.psqi::before {
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    }
+
+    .score-card.epworth::before {
+      background: linear-gradient(90deg, var(--secondary), var(--secondary-dark));
+    }
+
+    .score-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neutral-600);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .score-value {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .score-card.psqi .score-value { color: var(--primary); }
+    .score-card.epworth .score-value { color: var(--secondary); }
+
+    .score-max {
+      font-size: 1rem;
+      color: var(--neutral-500);
+      font-weight: 400;
+    }
+
+    .score-level {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .level-good {
+      background: #E8F8F0;
+      color: #1B7A4E;
+    }
+
+    .level-moderate {
+      background: #FFF3CD;
+      color: #856404;
+    }
+
+    .level-poor {
+      background: #FDECEA;
+      color: #C62828;
+    }
+
+    .score-bar-track {
+      width: 100%;
+      height: 8px;
+      background: var(--neutral-200);
+      border-radius: 4px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .score-description {
+      font-size: 0.9rem;
+      color: var(--neutral-600);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+
+    /* ===== Recommendation Cards ===== */
+    .recommendations {
+      margin-top: 36px;
+    }
+
+    .recommendations h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--neutral-900);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .recommendations h3 .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .recommendations > p {
+      color: var(--neutral-600);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .rec-card {
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--neutral-200);
+      transition: all 0.3s ease;
+    }
+
+    .rec-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .rec-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .rec-icon.articles { background: rgba(93,156,236,0.12); color: var(--primary); }
+    .rec-icon.courses { background: rgba(98,195,163,0.12); color: var(--secondary); }
+    .rec-icon.professionals { background: rgba(255,215,0,0.15); color: #B8860B; }
+
+    .rec-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .rec-card h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--neutral-800);
+      margin-bottom: 8px;
+    }
+
+    .rec-card p {
+      font-size: 0.88rem;
+      color: var(--neutral-600);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .rec-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .rec-tag {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--neutral-100);
+      color: var(--neutral-600);
+    }
+
+    .rec-card:hover .rec-tag {
+      background: rgba(93,156,236,0.08);
+      color: var(--primary-dark);
+    }
+
+    .rec-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 12px;
+      transition: gap 0.3s;
+    }
+
+    .rec-link:hover { gap: 10px; }
+
+    /* ===== Results Disclaimer ===== */
+    .results-disclaimer {
+      margin-top: 36px;
+    }
+
+    /* ===== Restart ===== */
+    .restart-section {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--neutral-900);
+      color: var(--neutral-400);
+      padding: 64px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand { max-width: 300px; }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--neutral-500);
+    }
+
+    .footer h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--primary-light); }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--neutral-500);
+    }
+
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--primary-light);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-social svg {
+      width: 18px;
+      height: 18px;
+      color: var(--neutral-400);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-bottom p {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-legal a {
+      font-size: 0.85rem;
+      color: var(--neutral-600);
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover { color: var(--primary-light); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .score-cards { grid-template-columns: 1fr; }
+      .rec-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-actions { display: none; }
+
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 24px;
+        box-shadow: var(--shadow-lg);
+        gap: 16px;
+      }
+
+      .hero { padding: 120px 0 50px; }
+      .hero h1 { font-size: 2rem; }
+
+      .step-card { padding: 24px 20px; }
+
+      .scale-options { grid-template-columns: repeat(2, 1fr); }
+      .symptom-grid { grid-template-columns: 1fr; }
+      .score-cards { grid-template-columns: 1fr; }
+      .rec-grid { grid-template-columns: 1fr; }
+
+      .progress-label { font-size: 0.65rem; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.6rem; }
+      .step-nav { flex-direction: column; }
+      .step-nav .btn { width: 100%; }
+      .radio-group { flex-direction: column; gap: 10px; }
+      .progress-bar { gap: 0; padding: 0; }
+      .progress-line { min-width: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .step-panel, .results-panel, .fade-in {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">Y</div>
+        一Ya好眠
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="assessment.html" class="active">睡眠評估</a></li>
+        <li><a href="courses.html">課程廣場</a></li>
+        <li><a href="professionals.html">尋找專家</a></li>
+        <li><a href="articles.html">知識庫</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-ghost btn-dashboard" id="btnDashboard">睡眠儀表板</a>
+        <button class="btn btn-ghost">登入</button>
+        <button class="btn btn-primary">免費加入</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="開啟選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5.5 4 7.5L12 20l3-3.5c2-2 4-4.5 4-7.5a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2"/></svg>
+      </div>
+      <h1>睡眠健康<span>評估</span></h1>
+      <p>結合國際標準量表與AI智慧分析，深入了解您的睡眠狀況，獲取個人化的改善建議與專業資源推薦。</p>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="disclaimer-section">
+    <div class="container">
+      <div class="disclaimer-box">
+        <div class="disclaimer-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          重要聲明
+        </div>
+        <p class="disclaimer-text">本服務提供的任何建議皆非醫療診斷，無法取代專業醫師的評估。若有任何健康問題，請尋求正規醫療協助。</p>
+        <label class="disclaimer-check">
+          <input type="checkbox" id="disclaimerAgree" onchange="toggleAssessment()">
+          我已閱讀並同意上述聲明
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Assessment -->
+  <section class="assessment-section">
+    <div class="container">
+      <div class="assessment-container assessment-locked" id="assessmentContainer">
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-step active" data-step="1">
+            <div class="progress-circle">1</div>
+            <div class="progress-label">基本資料</div>
+          </div>
+          <div class="progress-line" data-line="1"></div>
+          <div class="progress-step" data-step="2">
+            <div class="progress-circle">2</div>
+            <div class="progress-label">PSQI量表</div>
+          </div>
+          <div class="progress-line" data-line="2"></div>
+          <div class="progress-step" data-step="3">
+            <div class="progress-circle">3</div>
+            <div class="progress-label">Epworth量表</div>
+          </div>
+          <div class="progress-line" data-line="3"></div>
+          <div class="progress-step" data-step="4">
+            <div class="progress-circle">4</div>
+            <div class="progress-label">主訴輸入</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <div class="step-panel active" id="step1">
+          <div class="step-card">
+            <h2 class="step-title">基本資料</h2>
+            <p class="step-subtitle">請填寫您的基本資訊，以便我們提供更精確的分析結果。</p>
+
+            <div class="form-group">
+              <label class="form-label">年齡範圍 <span class="required">*</span></label>
+              <select class="form-select" id="ageRange" required>
+                <option value="">請選擇年齡範圍</option>
+                <option value="18-25">18-25 歲</option>
+                <option value="26-35">26-35 歲</option>
+                <option value="36-45">36-45 歲</option>
+                <option value="46-55">46-55 歲</option>
+                <option value="56-65">56-65 歲</option>
+                <option value="65+">65 歲以上</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">生理性別 <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="gender" value="male" required> 男性
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="gender" value="female"> 女性
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="gender" value="other"> 其他
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">職業</label>
+              <input type="text" class="form-input" id="occupation" placeholder="例如：工程師、教師、護理師...">
+            </div>
+
+            <div class="step-nav">
+              <div></div>
+              <button class="btn btn-primary" onclick="nextStep(1)">下一步 &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: PSQI -->
+        <div class="step-panel" id="step2">
+          <div class="step-card">
+            <h2 class="step-title">匹茲堡睡眠品質指數 (PSQI)</h2>
+            <p class="step-subtitle">以下問題評估您過去一個月的睡眠狀況。每題請選擇最符合您情況的選項（0-3分）。</p>
+
+            <div class="scale-question" id="psqi-q1">
+              <div class="scale-question-text">
+                <span class="scale-question-number">1</span>
+                您通常幾點上床睡覺？（越晚得分越高）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi1" id="psqi1-0" value="0">
+                  <label for="psqi1-0">0 分<br>晚上10點前</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi1" id="psqi1-1" value="1">
+                  <label for="psqi1-1">1 分<br>晚上10-11點</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi1" id="psqi1-2" value="2">
+                  <label for="psqi1-2">2 分<br>晚上11-12點</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi1" id="psqi1-3" value="3">
+                  <label for="psqi1-3">3 分<br>凌晨12點後</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q2">
+              <div class="scale-question-text">
+                <span class="scale-question-number">2</span>
+                您通常幾點起床？（越不規律得分越高）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi2" id="psqi2-0" value="0">
+                  <label for="psqi2-0">0 分<br>固定時間起床</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi2" id="psqi2-1" value="1">
+                  <label for="psqi2-1">1 分<br>偶爾不規律</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi2" id="psqi2-2" value="2">
+                  <label for="psqi2-2">2 分<br>經常不規律</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi2" id="psqi2-3" value="3">
+                  <label for="psqi2-3">3 分<br>完全不規律</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q3">
+              <div class="scale-question-text">
+                <span class="scale-question-number">3</span>
+                您通常需要多久才能入睡？（入睡潛伏期）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi3" id="psqi3-0" value="0">
+                  <label for="psqi3-0">0 分<br>15分鐘以內</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi3" id="psqi3-1" value="1">
+                  <label for="psqi3-1">1 分<br>16-30分鐘</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi3" id="psqi3-2" value="2">
+                  <label for="psqi3-2">2 分<br>31-60分鐘</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi3" id="psqi3-3" value="3">
+                  <label for="psqi3-3">3 分<br>超過60分鐘</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q4">
+              <div class="scale-question-text">
+                <span class="scale-question-number">4</span>
+                您每晚實際睡眠時間大約多長？
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi4" id="psqi4-0" value="0">
+                  <label for="psqi4-0">0 分<br>7小時以上</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi4" id="psqi4-1" value="1">
+                  <label for="psqi4-1">1 分<br>6-7小時</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi4" id="psqi4-2" value="2">
+                  <label for="psqi4-2">2 分<br>5-6小時</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi4" id="psqi4-3" value="3">
+                  <label for="psqi4-3">3 分<br>不到5小時</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q5">
+              <div class="scale-question-text">
+                <span class="scale-question-number">5</span>
+                您多常因為各種原因而睡眠中斷？（如噪音、溫度、疼痛等）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi5" id="psqi5-0" value="0">
+                  <label for="psqi5-0">0 分<br>從未發生</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi5" id="psqi5-1" value="1">
+                  <label for="psqi5-1">1 分<br>每週不到1次</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi5" id="psqi5-2" value="2">
+                  <label for="psqi5-2">2 分<br>每週1-2次</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi5" id="psqi5-3" value="3">
+                  <label for="psqi5-3">3 分<br>每週3次以上</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q6">
+              <div class="scale-question-text">
+                <span class="scale-question-number">6</span>
+                過去一個月，您使用安眠藥物的頻率？
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi6" id="psqi6-0" value="0">
+                  <label for="psqi6-0">0 分<br>從未使用</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi6" id="psqi6-1" value="1">
+                  <label for="psqi6-1">1 分<br>每週不到1次</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi6" id="psqi6-2" value="2">
+                  <label for="psqi6-2">2 分<br>每週1-2次</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi6" id="psqi6-3" value="3">
+                  <label for="psqi6-3">3 分<br>每週3次以上</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="psqi-q7">
+              <div class="scale-question-text">
+                <span class="scale-question-number">7</span>
+                過去一個月，您在白天活動時感到精神不濟或嗜睡的頻率？
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="psqi7" id="psqi7-0" value="0">
+                  <label for="psqi7-0">0 分<br>完全沒有</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi7" id="psqi7-1" value="1">
+                  <label for="psqi7-1">1 分<br>偶爾會</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi7" id="psqi7-2" value="2">
+                  <label for="psqi7-2">2 分<br>經常如此</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="psqi7" id="psqi7-3" value="3">
+                  <label for="psqi7-3">3 分<br>非常頻繁</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn btn-secondary-outline" onclick="prevStep(2)">&larr; 上一步</button>
+              <button class="btn btn-primary" onclick="nextStep(2)">下一步 &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Epworth -->
+        <div class="step-panel" id="step3">
+          <div class="step-card">
+            <h2 class="step-title">Epworth嗜睡量表</h2>
+            <p class="step-subtitle">以下描述了8種日常情境。請評估您在這些情境中打瞌睡的可能性（0=不會打瞌睡，3=很可能打瞌睡）。</p>
+
+            <div class="scale-question" id="ess-q1">
+              <div class="scale-question-text">
+                <span class="scale-question-number">1</span>
+                坐著閱讀時
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess1" id="ess1-0" value="0">
+                  <label for="ess1-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess1" id="ess1-1" value="1">
+                  <label for="ess1-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess1" id="ess1-2" value="2">
+                  <label for="ess1-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess1" id="ess1-3" value="3">
+                  <label for="ess1-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q2">
+              <div class="scale-question-text">
+                <span class="scale-question-number">2</span>
+                看電視時
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess2" id="ess2-0" value="0">
+                  <label for="ess2-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess2" id="ess2-1" value="1">
+                  <label for="ess2-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess2" id="ess2-2" value="2">
+                  <label for="ess2-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess2" id="ess2-3" value="3">
+                  <label for="ess2-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q3">
+              <div class="scale-question-text">
+                <span class="scale-question-number">3</span>
+                在公共場合安靜坐著時（如開會或看表演）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess3" id="ess3-0" value="0">
+                  <label for="ess3-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess3" id="ess3-1" value="1">
+                  <label for="ess3-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess3" id="ess3-2" value="2">
+                  <label for="ess3-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess3" id="ess3-3" value="3">
+                  <label for="ess3-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q4">
+              <div class="scale-question-text">
+                <span class="scale-question-number">4</span>
+                乘坐交通工具持續超過一小時（作為乘客）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess4" id="ess4-0" value="0">
+                  <label for="ess4-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess4" id="ess4-1" value="1">
+                  <label for="ess4-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess4" id="ess4-2" value="2">
+                  <label for="ess4-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess4" id="ess4-3" value="3">
+                  <label for="ess4-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q5">
+              <div class="scale-question-text">
+                <span class="scale-question-number">5</span>
+                下午躺下休息時
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess5" id="ess5-0" value="0">
+                  <label for="ess5-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess5" id="ess5-1" value="1">
+                  <label for="ess5-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess5" id="ess5-2" value="2">
+                  <label for="ess5-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess5" id="ess5-3" value="3">
+                  <label for="ess5-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q6">
+              <div class="scale-question-text">
+                <span class="scale-question-number">6</span>
+                坐著與人交談時
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess6" id="ess6-0" value="0">
+                  <label for="ess6-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess6" id="ess6-1" value="1">
+                  <label for="ess6-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess6" id="ess6-2" value="2">
+                  <label for="ess6-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess6" id="ess6-3" value="3">
+                  <label for="ess6-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q7">
+              <div class="scale-question-text">
+                <span class="scale-question-number">7</span>
+                午餐後安靜坐著時（未飲酒）
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess7" id="ess7-0" value="0">
+                  <label for="ess7-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess7" id="ess7-1" value="1">
+                  <label for="ess7-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess7" id="ess7-2" value="2">
+                  <label for="ess7-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess7" id="ess7-3" value="3">
+                  <label for="ess7-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="scale-question" id="ess-q8">
+              <div class="scale-question-text">
+                <span class="scale-question-number">8</span>
+                開車等紅燈或塞車暫停時
+              </div>
+              <div class="scale-options">
+                <div class="scale-option">
+                  <input type="radio" name="ess8" id="ess8-0" value="0">
+                  <label for="ess8-0">0 分<br>不會打瞌睡</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess8" id="ess8-1" value="1">
+                  <label for="ess8-1">1 分<br>輕微可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess8" id="ess8-2" value="2">
+                  <label for="ess8-2">2 分<br>中等可能</label>
+                </div>
+                <div class="scale-option">
+                  <input type="radio" name="ess8" id="ess8-3" value="3">
+                  <label for="ess8-3">3 分<br>很可能</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn btn-secondary-outline" onclick="prevStep(3)">&larr; 上一步</button>
+              <button class="btn btn-primary" onclick="nextStep(3)">下一步 &rarr;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Chief Complaint -->
+        <div class="step-panel" id="step4">
+          <div class="step-card">
+            <h2 class="step-title">主訴輸入</h2>
+            <p class="step-subtitle">請描述您目前的睡眠困擾，並勾選符合您情況的症狀。這些資訊將幫助我們提供更精準的建議。</p>
+
+            <div class="form-group">
+              <label class="form-label">請描述您的睡眠問題</label>
+              <textarea class="form-textarea" id="chiefComplaint" placeholder="例如：最近三個月來，我每晚都要花超過一小時才能入睡，白天精神很差，影響到工作表現..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">常見症狀（可複選）</label>
+              <div class="symptom-grid" id="symptomGrid">
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="難以入睡"> 難以入睡
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="夜間醒來"> 夜間醒來
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="早醒"> 早醒
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="打鼾"> 打鼾
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="白天嗜睡"> 白天嗜睡
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="睡眠不安穩"> 睡眠不安穩
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="夢多"> 夢多
+                </label>
+                <label class="symptom-check" onclick="toggleSymptom(this)">
+                  <input type="checkbox" name="symptoms" value="磨牙"> 磨牙
+                </label>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn btn-secondary-outline" onclick="prevStep(4)">&larr; 上一步</button>
+              <button class="btn btn-success btn-large" onclick="submitAssessment()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                提交評估
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-panel" id="resultsPanel">
+          <div class="results-header">
+            <h2>您的睡眠評估結果</h2>
+            <p>以下結果根據您填寫的量表計算而得，僅供參考。</p>
+          </div>
+
+          <div class="score-cards">
+            <div class="score-card psqi">
+              <div class="score-card-title">匹茲堡睡眠品質指數 PSQI</div>
+              <div class="score-value" id="psqiScore">0</div>
+              <div class="score-max">/ 21 分</div>
+              <div id="psqiLevel" class="score-level level-good">睡眠品質良好</div>
+              <div class="score-bar-track">
+                <div class="score-bar-fill" id="psqiBar" style="width:0; background: linear-gradient(90deg, var(--secondary), var(--primary));"></div>
+              </div>
+              <p class="score-description" id="psqiDesc"></p>
+            </div>
+            <div class="score-card epworth">
+              <div class="score-card-title">Epworth嗜睡量表 ESS</div>
+              <div class="score-value" id="essScore">0</div>
+              <div class="score-max">/ 24 分</div>
+              <div id="essLevel" class="score-level level-good">日間嗜睡程度正常</div>
+              <div class="score-bar-track">
+                <div class="score-bar-fill" id="essBar" style="width:0; background: linear-gradient(90deg, var(--secondary), var(--accent-warm));"></div>
+              </div>
+              <p class="score-description" id="essDesc"></p>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="recommendations">
+            <h3>
+              個人化建議
+              <span class="ai-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                AI 分析
+              </span>
+            </h3>
+            <p>根據您的評估結果，我們為您推薦以下資源：</p>
+
+            <div class="rec-grid" id="recGrid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Disclaimer repeated -->
+          <div class="results-disclaimer">
+            <div class="disclaimer-box">
+              <div class="disclaimer-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                重要聲明
+              </div>
+              <p class="disclaimer-text">本服務提供的任何建議皆非醫療診斷，無法取代專業醫師的評估。若有任何健康問題，請尋求正規醫療協助。</p>
+            </div>
+          </div>
+
+          <div class="restart-section">
+            <button class="btn btn-secondary-outline btn-large" onclick="restartAssessment()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              重新評估
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">Y</div>
+            一Ya好眠
+          </div>
+          <p>台灣首個整合睡眠檢測、診斷、治療與保健的一站式平台。</p>
+        </div>
+        <div>
+          <h4>快速連結</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="assessment.html">睡眠評估</a></li>
+            <li><a href="courses.html">課程廣場</a></li>
+            <li><a href="professionals.html">尋找專家</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>資源</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">知識庫</a></li>
+            <li><a href="#">常見問題</a></li>
+            <li><a href="#">聯絡我們</a></li>
+            <li><a href="#">隱私政策</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>聯絡方式</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@yagoodsleep.com
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://lin.ee/sKr9I4B" target="_blank" rel="noopener noreferrer" aria-label="Line">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 3.26 2.3 6.14 5.74 7.56-.08.67-.42 2.52-.48 2.91 0 0-.01.08.04.11.05.03.1.01.1.01.14-.02 1.58-.95 2.27-1.4.92.14 1.88.21 2.83.21 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 一Ya好眠. 版權所有。</p>
+        <div class="footer-legal">
+          <a href="#">服務條款</a>
+          <a href="#">隱私政策</a>
+          <a href="#">Cookie設定</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check login state
+    if (localStorage.getItem('yya_logged_in')) {
+      document.getElementById('btnDashboard').classList.add('active');
+    }
+
+    // ===== Navigation =====
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // ===== Disclaimer Toggle =====
+    function toggleAssessment() {
+      const agreed = document.getElementById('disclaimerAgree').checked;
+      const container = document.getElementById('assessmentContainer');
+      if (agreed) {
+        container.classList.add('unlocked');
+      } else {
+        container.classList.remove('unlocked');
+      }
+    }
+
+    // ===== Step Navigation =====
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    function updateProgress() {
+      document.querySelectorAll('.progress-step').forEach(el => {
+        const s = parseInt(el.dataset.step);
+        el.classList.remove('active', 'completed');
+        if (s === currentStep) el.classList.add('active');
+        else if (s < currentStep) el.classList.add('completed');
+      });
+      document.querySelectorAll('.progress-line').forEach(el => {
+        const l = parseInt(el.dataset.line);
+        el.classList.toggle('completed', l < currentStep);
+      });
+    }
+
+    function showStep(step) {
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('step' + step);
+      if (panel) {
+        panel.classList.add('active');
+        // re-trigger animation
+        panel.style.animation = 'none';
+        panel.offsetHeight;
+        panel.style.animation = '';
+      }
+      currentStep = step;
+      updateProgress();
+      window.scrollTo({ top: document.querySelector('.progress-bar').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function validateStep(step) {
+      if (step === 1) {
+        const age = document.getElementById('ageRange').value;
+        const gender = document.querySelector('input[name="gender"]:checked');
+        if (!age) {
+          alert('請選擇年齡範圍');
+          return false;
+        }
+        if (!gender) {
+          alert('請選擇生理性別');
+          return false;
+        }
+        return true;
+      }
+      if (step === 2) {
+        for (let i = 1; i <= 7; i++) {
+          if (!document.querySelector('input[name="psqi' + i + '"]:checked')) {
+            alert('請完成所有 PSQI 題目（第 ' + i + ' 題尚未作答）');
+            const q = document.getElementById('psqi-q' + i);
+            q.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            q.style.borderColor = '#E74C3C';
+            setTimeout(() => { q.style.borderColor = ''; }, 2000);
+            return false;
+          }
+        }
+        return true;
+      }
+      if (step === 3) {
+        for (let i = 1; i <= 8; i++) {
+          if (!document.querySelector('input[name="ess' + i + '"]:checked')) {
+            alert('請完成所有 Epworth 題目（第 ' + i + ' 題尚未作答）');
+            const q = document.getElementById('ess-q' + i);
+            q.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            q.style.borderColor = '#E74C3C';
+            setTimeout(() => { q.style.borderColor = ''; }, 2000);
+            return false;
+          }
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function nextStep(fromStep) {
+      if (!validateStep(fromStep)) return;
+      if (fromStep < totalSteps) {
+        showStep(fromStep + 1);
+      }
+    }
+
+    function prevStep(fromStep) {
+      if (fromStep > 1) {
+        showStep(fromStep - 1);
+      }
+    }
+
+    // ===== Scale question answered highlight =====
+    document.querySelectorAll('.scale-option input').forEach(radio => {
+      radio.addEventListener('change', function() {
+        this.closest('.scale-question').classList.add('answered');
+      });
+    });
+
+    // ===== Symptom toggle =====
+    function toggleSymptom(el) {
+      setTimeout(() => {
+        const cb = el.querySelector('input[type="checkbox"]');
+        el.classList.toggle('checked', cb.checked);
+      }, 0);
+    }
+
+    // ===== Submit & Calculate =====
+    function submitAssessment() {
+      // Calculate PSQI
+      let psqiTotal = 0;
+      for (let i = 1; i <= 7; i++) {
+        const checked = document.querySelector('input[name="psqi' + i + '"]:checked');
+        if (checked) psqiTotal += parseInt(checked.value);
+      }
+
+      // Calculate ESS
+      let essTotal = 0;
+      for (let i = 1; i <= 8; i++) {
+        const checked = document.querySelector('input[name="ess' + i + '"]:checked');
+        if (checked) essTotal += parseInt(checked.value);
+      }
+
+      // Hide form steps, show results
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.querySelector('.progress-bar').style.display = 'none';
+
+      const resultsPanel = document.getElementById('resultsPanel');
+      resultsPanel.classList.add('active');
+
+      // Animate scores
+      animateScore('psqiScore', psqiTotal);
+      animateScore('essScore', essTotal);
+
+      // PSQI interpretation
+      const psqiBar = document.getElementById('psqiBar');
+      const psqiLevel = document.getElementById('psqiLevel');
+      const psqiDesc = document.getElementById('psqiDesc');
+
+      setTimeout(() => {
+        psqiBar.style.width = (psqiTotal / 21 * 100) + '%';
+      }, 300);
+
+      if (psqiTotal <= 5) {
+        psqiLevel.textContent = '睡眠品質良好';
+        psqiLevel.className = 'score-level level-good';
+        psqiDesc.textContent = '您的睡眠品質處於良好範圍。建議持續維持良好的睡眠習慣，定期關注自身睡眠狀況。';
+      } else if (psqiTotal <= 10) {
+        psqiLevel.textContent = '睡眠品質中等';
+        psqiLevel.className = 'score-level level-moderate';
+        psqiDesc.textContent = '您的睡眠品質有改善空間。建議調整作息、改善睡眠環境，並學習放鬆技巧。若情況持續，建議諮詢專業人士。';
+      } else {
+        psqiLevel.textContent = '睡眠品質不佳';
+        psqiLevel.className = 'score-level level-poor';
+        psqiDesc.textContent = '您的睡眠品質需要特別關注。強烈建議您諮詢睡眠專科醫師或心理師，進行更深入的評估與治療。';
+      }
+
+      // ESS interpretation
+      const essBar = document.getElementById('essBar');
+      const essLevel = document.getElementById('essLevel');
+      const essDesc = document.getElementById('essDesc');
+
+      setTimeout(() => {
+        essBar.style.width = (essTotal / 24 * 100) + '%';
+      }, 300);
+
+      if (essTotal <= 10) {
+        essLevel.textContent = '日間嗜睡程度正常';
+        essLevel.className = 'score-level level-good';
+        essDesc.textContent = '您的日間嗜睡程度在正常範圍內，表示您的睡眠大致能滿足白天的精神需求。';
+      } else if (essTotal <= 14) {
+        essLevel.textContent = '輕度嗜睡';
+        essLevel.className = 'score-level level-moderate';
+        essDesc.textContent = '您有輕度的日間嗜睡傾向。建議注意是否有睡眠不足或睡眠品質不佳的情況，並適當調整。';
+      } else if (essTotal <= 17) {
+        essLevel.textContent = '中度嗜睡';
+        essLevel.className = 'score-level level-moderate';
+        essDesc.textContent = '您有明顯的日間嗜睡情況，這可能影響日常活動與安全。建議尋求睡眠專科醫師評估。';
+      } else {
+        essLevel.textContent = '嚴重嗜睡';
+        essLevel.className = 'score-level level-poor';
+        essDesc.textContent = '您的日間嗜睡情況嚴重，可能存在潛在的睡眠疾患（如睡眠呼吸中止症）。請儘速就醫檢查。';
+      }
+
+      // Generate recommendations
+      generateRecommendations(psqiTotal, essTotal);
+
+      window.scrollTo({ top: resultsPanel.offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function animateScore(elementId, target) {
+      const el = document.getElementById(elementId);
+      let current = 0;
+      const duration = 1000;
+      const increment = target / (duration / 30);
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.round(current);
+      }, 30);
+    }
+
+    function generateRecommendations(psqi, ess) {
+      const grid = document.getElementById('recGrid');
+      let articles = [], courses = [], professionals = [];
+
+      // Articles based on scores
+      if (psqi > 5) {
+        articles.push('睡眠衛生指南', '改善入睡困難的技巧');
+      }
+      if (psqi > 10) {
+        articles.push('認識失眠症', '認知行為治療(CBT-I)介紹');
+      }
+      if (ess > 10) {
+        articles.push('日間嗜睡的常見原因', '睡眠呼吸中止症簡介');
+      }
+      if (psqi <= 5 && ess <= 10) {
+        articles.push('維持良好睡眠的秘訣', '睡眠與健康的關係');
+      }
+
+      // Courses
+      if (psqi > 5) {
+        courses.push('睡前放鬆冥想', '正念助眠課程');
+      }
+      if (psqi > 10) {
+        courses.push('CBT-I 自助課程', '壓力管理工作坊');
+      }
+      if (ess > 10) {
+        courses.push('活力提升運動課程', '午間能量管理');
+      }
+      if (psqi <= 5 && ess <= 10) {
+        courses.push('進階睡眠優化', '夢境探索入門');
+      }
+
+      // Professionals
+      if (psqi > 10 || ess > 14) {
+        professionals.push('睡眠專科醫師', '精神科醫師');
+      }
+      if (psqi > 5) {
+        professionals.push('臨床心理師', '睡眠技師');
+      }
+      if (ess > 10) {
+        professionals.push('耳鼻喉科醫師', '胸腔內科醫師');
+      }
+      if (psqi <= 5 && ess <= 10) {
+        professionals.push('健康管理師', '營養師');
+      }
+
+      // Deduplicate
+      articles = [...new Set(articles)].slice(0, 3);
+      courses = [...new Set(courses)].slice(0, 3);
+      professionals = [...new Set(professionals)].slice(0, 3);
+
+      grid.innerHTML = `
+        <div class="rec-card">
+          <div class="rec-icon articles">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h4>推薦文章</h4>
+          <p>根據您的評估結果，以下知識庫文章可能對您有幫助：</p>
+          <div class="rec-tags">${articles.map(a => '<span class="rec-tag">' + a + '</span>').join('')}</div>
+          <a href="articles.html" class="rec-link">前往知識庫 &rarr;</a>
+        </div>
+        <div class="rec-card">
+          <div class="rec-icon courses">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <h4>推薦課程</h4>
+          <p>這些課程能幫助您建立更好的睡眠習慣：</p>
+          <div class="rec-tags">${courses.map(c => '<span class="rec-tag">' + c + '</span>').join('')}</div>
+          <a href="courses.html" class="rec-link">瀏覽課程 &rarr;</a>
+        </div>
+        <div class="rec-card">
+          <div class="rec-icon professionals">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h4>推薦專家類型</h4>
+          <p>建議您可以諮詢以下類型的專業人士：</p>
+          <div class="rec-tags">${professionals.map(p => '<span class="rec-tag">' + p + '</span>').join('')}</div>
+          <a href="professionals.html" class="rec-link">尋找專家 &rarr;</a>
+        </div>
+      `;
+    }
+
+    // ===== Restart =====
+    function restartAssessment() {
+      // Reset all form inputs
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[type="checkbox"][name="symptoms"]').forEach(c => { c.checked = false; });
+      document.querySelectorAll('.symptom-check').forEach(s => s.classList.remove('checked'));
+      document.querySelectorAll('.scale-question').forEach(q => q.classList.remove('answered'));
+      document.getElementById('ageRange').value = '';
+      document.getElementById('occupation').value = '';
+      document.getElementById('chiefComplaint').value = '';
+
+      // Show form
+      document.getElementById('resultsPanel').classList.remove('active');
+      document.querySelector('.progress-bar').style.display = 'flex';
+      showStep(1);
+    }
+  </script>
+</body>
+</html>
