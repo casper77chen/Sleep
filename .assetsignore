@@ -1,0 +1,8 @@
+# 白名單：只上傳網站用到的檔案（排除 reference/ 內部策略 PDF、未使用的照片、CLAUDE.md）
+*
+!*.html
+!photo/
+!photo/陳欽章醫師.JPG
+!photo/臧鴻儒醫師.webp
+!screenshots/
+!screenshots/**

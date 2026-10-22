@@ -1,0 +1,8 @@
+{
+  "name": "sleep",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": true,
+  "routes": [{ "pattern": "sleep.casper77chen.com", "custom_domain": true }],
+  "observability": { "enabled": true },
+  "assets": { "directory": "." }
+}
